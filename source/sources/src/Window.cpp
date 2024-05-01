@@ -1,14 +1,12 @@
 #include "headerfile/Window.h"
 
 
-
-
-
-
 Window::Window() {
     Windows = nullptr;
     WindowSurface = nullptr;
     Limit = limit(WINDOW_HEIGHT);
+
+    
 }
 
 SDL_Window* Window::InitializeWindow() {
@@ -81,32 +79,95 @@ void Window::RenderBlinky(int x, int y, SDL_Renderer* Render,SDL_Window* window,
 }
 
 
-void Window::RenderInky(int x, int y, SDL_Renderer* Render,SDL_Window* window)
+void Window::RenderInky(int x, int y, SDL_Renderer* Render,SDL_Window* window,int frameIndex)
 {
     //C:\\Users\\zulul\\Documents\\pacman\\Pacman\\source\\resources\\sprites\\inky.png
     std::string Location = "C:\\Users\\zulul\\Documents\\pacman\\Pacman\\source\\resources\\sprites\\inky.png";
-    RenderOnSurface(Location,x,y,Render,window);
+    
+    int frameWidth = 17;
+    int frameHeight = CELL_SIZE;
+
+    
+    
+
+
+    int srcX = frameIndex * frameWidth;
+    int srcY = 0;
+
+    int destX = x;
+    int destY = y;
+
+    
+    renderFrameOnSurface(Location, srcX, srcY, frameWidth, frameHeight, destX, destY, Render, window);
 }
 
-void Window::RenderClyde(int x, int y, SDL_Renderer* Render,SDL_Window* window)
+void Window::RenderClyde(int x, int y, SDL_Renderer* Render,SDL_Window* window,int frameIndex)
 {
     //C:\\Users\\zulul\\Documents\\pacman\\Pacman\\source\\resources\\sprites\\clyde.png
     std::string Location = "C:\\Users\\zulul\\Documents\\pacman\\Pacman\\source\\resources\\sprites\\clyde.png";
-    RenderOnSurface(Location,x,y,Render,window);
+    
+    
+    int frameWidth = 17;
+    int frameHeight = CELL_SIZE;
+
+    
+    
+
+
+    int srcX = frameIndex * frameWidth;
+    int srcY = 0;
+
+    int destX = x;
+    int destY = y;
+
+    
+    renderFrameOnSurface(Location, srcX, srcY, frameWidth, frameHeight, destX, destY, Render, window);
 }
 
-void Window::RenderPinky(int x, int y, SDL_Renderer* Render,SDL_Window* window)
+void Window::RenderPinky(int x, int y, SDL_Renderer* Render,SDL_Window* window,int frameIndex)
 {
     //C:\\Users\\zulul\\Documents\\pacman\\Pacman\\source\\resources\\sprites\\Pinky.png
     std::string Location = "C:\\Users\\zulul\\Documents\\pacman\\Pacman\\source\\resources\\sprites\\Pinky.png";
-    RenderOnSurface(Location,x,y,Render,window);
+    
+    
+    int frameWidth = 17;
+    int frameHeight = CELL_SIZE;
+
+    
+    
+
+
+    int srcX = frameIndex * frameWidth;
+    int srcY = 0;
+
+    int destX = x;
+    int destY = y;
+
+    
+    renderFrameOnSurface(Location, srcX, srcY, frameWidth, frameHeight, destX, destY, Render, window);
 }
 
-void Window::RenderPacman(int x, int y, SDL_Renderer* Render,SDL_Window* window)
+void Window::RenderPacman(int x, int y, SDL_Renderer* Render,SDL_Window* window,int frameIndex)
 {
     //Pacman thingie
     std::string Location = "C:\\Users\\zulul\\Documents\\pacman\\Pacman\\source\\resources\\sprites\\pacman.png";
-    RenderOnSurface(Location,x,y,Render,window);
+    
+    
+    int frameWidth = 17;
+    int frameHeight = CELL_SIZE;
+
+    
+    
+
+
+    int srcX = frameIndex * frameWidth;
+    int srcY = 0;
+
+    int destX = x;
+    int destY = y;
+
+    
+    renderFrameOnSurface(Location, srcX, srcY, frameWidth, frameHeight, destX, destY, Render, window);
 }
 
 SDL_Texture* Window::loadTexture(std::string Location, SDL_Renderer* renderer) {
@@ -174,22 +235,22 @@ bool Window::renderFrameOnSurface(std::string Location, int srcX, int srcY, int 
     SDL_Texture* texture = loadTexture(Location, renderer);
     
     if (texture == nullptr) {
-        return false; // Failed to load texture, return false
+        return false;
     }
 
-    // Define the source rectangle
+    
     SDL_Rect srcRect;
-    srcRect.x = srcX; // X-coordinate of the top-left corner of the frame in the image
-    srcRect.y = srcY; // Y-coordinate of the top-left corner of the frame in the image
-    srcRect.w = srcWidth; // Width of the frame
-    srcRect.h = srcHeight; // Height of the frame
+    srcRect.x = srcX;
+    srcRect.y = srcY;
+    srcRect.w = srcWidth;
+    srcRect.h = srcHeight;
 
-    // Define the destination rectangle
+    
     SDL_Rect destRect; 
-    destRect.x = destX; // X-coordinate of the top-left corner of the destination on the screen
-    destRect.y = destY; // Y-coordinate of the top-left corner of the destination on the screen
-    destRect.w = srcWidth; // Width of the destination (same as the width of the frame)
-    destRect.h = srcHeight; // Height of the destination (same as the height of the frame)
+    destRect.x = destX;
+    destRect.y = destY;
+    destRect.w = srcWidth;
+    destRect.h = srcHeight;
 
     // Render the frame onto the screen
     SDL_RenderCopy(renderer, texture, &srcRect, &destRect);
@@ -207,7 +268,7 @@ bool Window::DrawMap(SDL_Renderer* renderer, Map One,SDL_Window* window) {
     int radius, centerX, centerY, rad, pointX, pointY;
     for (int y = 0; y < LIMIT; y++) {
         for (int x = 0; x < LIMIT; x++) {
-            Wall = {(x + 2) * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE};
+            Wall = {(x + 13) * CELL_SIZE, (y+13) * CELL_SIZE, CELL_SIZE, CELL_SIZE};
 
             switch (One[y][x]) {
                 case '#':
@@ -235,20 +296,20 @@ bool Window::DrawMap(SDL_Renderer* renderer, Map One,SDL_Window* window) {
                     RenderBlinky(Wall.x,Wall.y,renderer,window,0);
                     break;
                 case '1':
-                    RenderInky(Wall.x,Wall.y,renderer,window);
+                    RenderInky(Wall.x,Wall.y,renderer,window,1);
                     break;
                 case '2':
-                    RenderPinky(Wall.x,Wall.y,renderer,window);
+                    RenderPinky(Wall.x,Wall.y,renderer,window,2);
                     break;
                 case '3':
-                    RenderClyde(Wall.x,Wall.y,renderer,window);
+                    RenderClyde(Wall.x,Wall.y,renderer,window,3);
                     break;
                 case '9':
-                    RenderPacman(Wall.x,Wall.y,renderer,window);
+                    RenderPacman(Wall.x,Wall.y,renderer,window,4);
                     break;
                 case 'o':
                     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-                    SDL_RenderDrawPoint(renderer, (x + 2) * CELL_SIZE, y * CELL_SIZE);
+                    SDL_RenderDrawPoint(renderer, (x + 13) * CELL_SIZE, (y+13) * CELL_SIZE);
                     break;
                 case '=':
                     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);

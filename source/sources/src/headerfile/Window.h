@@ -12,7 +12,7 @@
 #include <cmath>
 
 
-#define CELL_SIZE 40
+#define CELL_SIZE 20
 #define LIMIT 21
 
 
@@ -29,10 +29,10 @@ private:
     void WindowShown();
     int limit(int window_height);
     void RenderBlinky(int x, int y, SDL_Renderer* Render,SDL_Window* window,int frameIndex);
-    void RenderInky(int x, int y, SDL_Renderer* Render,SDL_Window* window);
-    void RenderClyde(int x, int y, SDL_Renderer* Render,SDL_Window* window);
-    void RenderPinky(int x, int y, SDL_Renderer* Render,SDL_Window* window);
-    void RenderPacman(int x, int y, SDL_Renderer* Render,SDL_Window* window);
+    void RenderInky(int x, int y, SDL_Renderer* Render,SDL_Window* window,int frameIndex);
+    void RenderClyde(int x, int y, SDL_Renderer* Render,SDL_Window* window,int frameIndex);
+    void RenderPinky(int x, int y, SDL_Renderer* Render,SDL_Window* window,int frameIndex);
+    void RenderPacman(int x, int y, SDL_Renderer* Render,SDL_Window* window,int frameIndex);
     //void CollectSpritesFromSheet(const std::string& Location, int spriteWidth, int spriteHeight, std::vector<SDL_Surface*>& sprites);
     
     std::vector<SDL_Rect> BlinkySprites;
