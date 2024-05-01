@@ -1,0 +1,64 @@
+<mxfile host="app.diagrams.net" modified="2024-04-20T05:51:33.330Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36" etag="ukscmobsurOz3lTr4O2r" version="24.2.7" type="device">
+  <diagram name="Page-1" id="lrdB1iuxdXcdGJtR5UVX">
+    <mxGraphModel dx="1434" dy="907" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="4vN1ThpySCREyVZ0piTW-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="4vN1ThpySCREyVZ0piTW-3" target="4vN1ThpySCREyVZ0piTW-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4vN1ThpySCREyVZ0piTW-3" value="Install SDL2/3&lt;div&gt;and all the other&lt;br&gt;&lt;/div&gt;&lt;div&gt;requirements&lt;/div&gt;" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.annotation_1;align=left;pointerEvents=1;direction=south;" vertex="1" parent="1">
+          <mxGeometry x="343" y="59" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="4vN1ThpySCREyVZ0piTW-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="4vN1ThpySCREyVZ0piTW-6" target="4vN1ThpySCREyVZ0piTW-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4vN1ThpySCREyVZ0piTW-6" value="Create a black blank window using SDL2/3" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="55" y="170" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="4vN1ThpySCREyVZ0piTW-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="4vN1ThpySCREyVZ0piTW-7" target="4vN1ThpySCREyVZ0piTW-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4vN1ThpySCREyVZ0piTW-7" value="Render Sprites on the blank Window Surface." style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="616" y="222" width="120" height="94" as="geometry" />
+        </mxCell>
+        <mxCell id="4vN1ThpySCREyVZ0piTW-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="4vN1ThpySCREyVZ0piTW-10" target="4vN1ThpySCREyVZ0piTW-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4vN1ThpySCREyVZ0piTW-10" value="Render Different Maps on the screen in a given sequence" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="616" y="362" width="120" height="76" as="geometry" />
+        </mxCell>
+        <mxCell id="4vN1ThpySCREyVZ0piTW-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="4vN1ThpySCREyVZ0piTW-7" target="4vN1ThpySCREyVZ0piTW-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4vN1ThpySCREyVZ0piTW-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="4vN1ThpySCREyVZ0piTW-16" target="4vN1ThpySCREyVZ0piTW-18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4vN1ThpySCREyVZ0piTW-16" value="Make Leaderboard Window and Home Screen" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="354" y="361" width="120" height="77" as="geometry" />
+        </mxCell>
+        <mxCell id="4vN1ThpySCREyVZ0piTW-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="4vN1ThpySCREyVZ0piTW-18" target="4vN1ThpySCREyVZ0piTW-21">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4vN1ThpySCREyVZ0piTW-18" value="Add Music to the Home Window&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="55" y="361" width="120" height="77" as="geometry" />
+        </mxCell>
+        <mxCell id="4vN1ThpySCREyVZ0piTW-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="4vN1ThpySCREyVZ0piTW-21" target="4vN1ThpySCREyVZ0piTW-23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4vN1ThpySCREyVZ0piTW-21" value="Make Buttons work and call required Windows" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="55" y="513.25" width="120" height="83" as="geometry" />
+        </mxCell>
+        <mxCell id="4vN1ThpySCREyVZ0piTW-27" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="4vN1ThpySCREyVZ0piTW-23" target="4vN1ThpySCREyVZ0piTW-24">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4vN1ThpySCREyVZ0piTW-23" value="Implement the Starting State" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="346" y="513.25" width="120" height="80.5" as="geometry" />
+        </mxCell>
+        <mxCell id="4vN1ThpySCREyVZ0piTW-24" value="Implement the State of Losing a Life" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="616" y="512" width="120" height="83" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
