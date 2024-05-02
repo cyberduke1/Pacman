@@ -1,4 +1,5 @@
 #include "headerfile/Window.h"
+#include "Window.h"
 
 
 Window::Window() {
@@ -185,7 +186,7 @@ SDL_Texture* Window::loadTexture(std::string Location, SDL_Renderer* renderer) {
     return newTexture;
 }
 
-bool Window::RenderOnSurface(std::string Location, int x, int y, SDL_Renderer* renderer, SDL_Window* window) {
+bool Window::RenderOnSurface(std::string Location, int x, int y, SDL_Renderer* renderer) {
 
     SDL_Texture* texture = loadTexture(Location, renderer);
 
@@ -230,7 +231,35 @@ bool Window::loadSprite(std::string Location,int width,int height,SDL_Renderer* 
     return Loaded;
 }
 
-bool Window::renderFrameOnSurface(std::string Location, int srcX, int srcY, int srcWidth, int srcHeight, int destX, int destY, SDL_Renderer* renderer, SDL_Window* window) {
+
+void Window::InitialLoad(SDL_Renderer *renderer)
+{
+    for(int i = 0 ; i < Located.size()-1;i++){
+        switch (i)
+        {
+        case 0:
+            BlinkySprites.push_back(loadTexture(Located[i],renderer));
+            break;
+        case 1:
+            InkySprites.push_back(loadTexture(Located[i],renderer));
+            break;
+        case 2:
+            PinkySprites.push_back(loadTexture(Located[i],renderer));
+            break;
+        case 3:
+            ClydeSprites.push_back(loadTexture(Located[i],renderer));
+            break;
+        case 4:
+            PacmanSprites.push_back(loadTexture(Located[i],renderer));
+            break;
+
+        default:
+            break;
+        }
+    }
+}
+
+bool Window::renderFrameOnSurface(std::string Location, int srcX, int srcY, int srcWidth, int srcHeight, int destX, int destY, SDL_Renderer* renderer) {
 
     SDL_Texture* texture = loadTexture(Location, renderer);
     

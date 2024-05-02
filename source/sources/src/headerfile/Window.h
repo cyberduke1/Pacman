@@ -23,8 +23,9 @@ class Window {
 private:
 
     void drawFilledCircle(SDL_Renderer* renderer, int centerX, int centerY, int radius);
-    bool RenderOnSurface(std::string Location,int x, int y,SDL_Renderer* Render,SDL_Window* windows);
-    bool renderFrameOnSurface(std::string Location, int srcX, int srcY, int srcWidth, int srcHeight, int destX, int destY, SDL_Renderer* renderer, SDL_Window* window);
+    bool RenderOnSurface(std::string Location,int x, int y,SDL_Renderer* Render);
+    bool renderFrameOnSurface(std::string Location, int srcX, int srcY, int srcWidth, int srcHeight, int destX, int destY, SDL_Renderer* renderer);
+    void InitialLoad(SDL_Renderer* renderer);
     //void RenderonVector(std::string Location, int srcX, int srcY, int srcWidth, int srcHeight, int destX, int destY,std::vector<SDL_Rect>&Sprite);
     void WindowShown();
     int limit(int window_height);
@@ -35,11 +36,19 @@ private:
     void RenderPacman(int x, int y, SDL_Renderer* Render,SDL_Window* window,int frameIndex);
     //void CollectSpritesFromSheet(const std::string& Location, int spriteWidth, int spriteHeight, std::vector<SDL_Surface*>& sprites);
     
-    std::vector<SDL_Rect> BlinkySprites;
-    std::vector<SDL_Rect> InkySprites;
-    std::vector<SDL_Rect> PinkySprites;
-    std::vector<SDL_Rect> ClydeSprites;
-    std::vector<SDL_Rect> PacmanSprites;
+    std::vector<const std::string> Located = {"C:\\Users\\zulul\\Documents\\pacman\\Pacman\\source\\resources\\sprites\\blinky.png","C:\\Users\\zulul\\Documents\\pacman\\Pacman\\source\\resources\\sprites\\inky.png","C:\\Users\\zulul\\Documents\\pacman\\Pacman\\source\\resources\\sprites\\clyde.png","C:\\Users\\zulul\\Documents\\pacman\\Pacman\\source\\resources\\sprites\\Pinky.png","C:\\Users\\zulul\\Documents\\pacman\\Pacman\\source\\resources\\sprites\\pacman.png"};
+
+    std::vector<SDL_Texture*> BlinkySprites;
+    std::vector<SDL_Texture*> InkySprites;
+    std::vector<SDL_Texture*> PinkySprites;
+    std::vector<SDL_Texture*> ClydeSprites;
+    std::vector<SDL_Texture*> PacmanSprites;
+
+    std::vector<SDL_Rect> AddBlinky;
+    std::vector<SDL_Rect> AddInky;
+    std::vector<SDL_Rect> AddPinky;
+    std::vector<SDL_Rect> AddClyde;
+    std::vector<SDL_Rect> AddPacman;
 
 public:
     int const WINDOW_HEIGHT = 960;

@@ -44,7 +44,8 @@ int main(int argc, char* argv[]) {
     
     bool quit = false;
     SDL_Event e;
-    int first = 1;
+    
+
     while (!quit) {
         while (SDL_PollEvent(&e) != 0) {
             if (e.type == SDL_QUIT) {
@@ -52,19 +53,12 @@ int main(int argc, char* argv[]) {
             }
         }
 
-        
-
-
-        if(first == 1){
-            SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-            SDL_RenderClear(renderer);
-            if (!MainWindow.DrawMap(renderer,map,window)){
-                break;
-            }
-            SDL_RenderPresent(renderer);
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        SDL_RenderClear(renderer);
+        if (!MainWindow.DrawMap(renderer,map,window)){
+            break;
         }
-
-        first++;
+        SDL_RenderPresent(renderer);
     }
 
     
