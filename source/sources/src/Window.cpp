@@ -6,7 +6,7 @@ Window::Window() {
     Windows = nullptr;
     WindowSurface = nullptr;
     Limit = limit(WINDOW_HEIGHT);
-
+    Renders = nullptr;
     
 }
 
@@ -76,7 +76,7 @@ void Window::RenderBlinky(int x, int y, SDL_Renderer* Render,SDL_Window* window,
     int destY = y;
 
     
-    renderFrameOnSurface(Location, srcX, srcY, frameWidth, frameHeight, destX, destY, Render, window);
+    
 }
 
 
@@ -99,7 +99,7 @@ void Window::RenderInky(int x, int y, SDL_Renderer* Render,SDL_Window* window,in
     int destY = y;
 
     
-    renderFrameOnSurface(Location, srcX, srcY, frameWidth, frameHeight, destX, destY, Render, window);
+    
 }
 
 void Window::RenderClyde(int x, int y, SDL_Renderer* Render,SDL_Window* window,int frameIndex)
@@ -122,7 +122,7 @@ void Window::RenderClyde(int x, int y, SDL_Renderer* Render,SDL_Window* window,i
     int destY = y;
 
     
-    renderFrameOnSurface(Location, srcX, srcY, frameWidth, frameHeight, destX, destY, Render, window);
+    
 }
 
 void Window::RenderPinky(int x, int y, SDL_Renderer* Render,SDL_Window* window,int frameIndex)
@@ -145,7 +145,7 @@ void Window::RenderPinky(int x, int y, SDL_Renderer* Render,SDL_Window* window,i
     int destY = y;
 
     
-    renderFrameOnSurface(Location, srcX, srcY, frameWidth, frameHeight, destX, destY, Render, window);
+    
 }
 
 void Window::RenderPacman(int x, int y, SDL_Renderer* Render,SDL_Window* window,int frameIndex)
@@ -168,7 +168,7 @@ void Window::RenderPacman(int x, int y, SDL_Renderer* Render,SDL_Window* window,
     int destY = y;
 
     
-    renderFrameOnSurface(Location, srcX, srcY, frameWidth, frameHeight, destX, destY, Render, window);
+    
 }
 
 SDL_Texture* Window::loadTexture(std::string Location, SDL_Renderer* renderer) {
@@ -259,9 +259,8 @@ void Window::InitialLoad(SDL_Renderer *renderer)
     }
 }
 
-bool Window::renderFrameOnSurface(std::string Location, int srcX, int srcY, int srcWidth, int srcHeight, int destX, int destY, SDL_Renderer* renderer) {
+bool Window::renderFrameOnSurface(std::string Location, int srcX, int srcY, int srcWidth, int srcHeight, int destX, int destY, SDL_Renderer* renderer,SDL_Texture* texture) {
 
-    SDL_Texture* texture = loadTexture(Location, renderer);
     
     if (texture == nullptr) {
         return false;
@@ -281,7 +280,6 @@ bool Window::renderFrameOnSurface(std::string Location, int srcX, int srcY, int 
     destRect.w = srcWidth;
     destRect.h = srcHeight;
 
-    // Render the frame onto the screen
     SDL_RenderCopy(renderer, texture, &srcRect, &destRect);
     SDL_RenderPresent(renderer);
 
@@ -290,8 +288,12 @@ bool Window::renderFrameOnSurface(std::string Location, int srcX, int srcY, int 
     return true;
 }
 
-bool Window::DrawMap(SDL_Renderer* renderer, Map One,SDL_Window* window) {
+void Window::getRender(SDL_Renderer* render){
+    Renders = render;
+}
 
+bool Window::DrawMap(SDL_Renderer* renderer, Map One,SDL_Window* window) {
+    
     SDL_Rect Wall = {0, 0, 0, 0};
     bool FullyRan = false;
     int radius, centerX, centerY, rad, pointX, pointY;

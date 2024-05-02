@@ -24,8 +24,7 @@ private:
 
     void drawFilledCircle(SDL_Renderer* renderer, int centerX, int centerY, int radius);
     bool RenderOnSurface(std::string Location,int x, int y,SDL_Renderer* Render);
-    bool renderFrameOnSurface(std::string Location, int srcX, int srcY, int srcWidth, int srcHeight, int destX, int destY, SDL_Renderer* renderer);
-    void InitialLoad(SDL_Renderer* renderer);
+    bool renderFrameOnSurface(std::string Location, int srcX, int srcY, int srcWidth, int srcHeight, int destX, int destY, SDL_Renderer* renderer,SDL_Texture* texture);
     //void RenderonVector(std::string Location, int srcX, int srcY, int srcWidth, int srcHeight, int destX, int destY,std::vector<SDL_Rect>&Sprite);
     void WindowShown();
     int limit(int window_height);
@@ -55,11 +54,13 @@ public:
     int const WINDOW_WIDTH = 960;
     int Limit;
     int radius,centerX,centerY;
+    int ren = 0;
     SDL_Window* Windows;
     SDL_Surface* WindowSurface;
 
     //Methods
     SDL_Window* InitializeWindow();
+    void InitialLoad(SDL_Renderer* renderer);
     SDL_Texture* loadTexture(std::string Location, SDL_Renderer* renderer); //    SDL_Texture* newTexture = nullptr;
     bool loadSprite(std::string Location,int width,int height,SDL_Renderer* Render,SDL_Window* window);
     bool DrawMap(SDL_Renderer* renderer,Map map, SDL_Window* window);
