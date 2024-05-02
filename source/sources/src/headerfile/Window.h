@@ -24,7 +24,7 @@ private:
 
     void drawFilledCircle(SDL_Renderer* renderer, int centerX, int centerY, int radius);
     bool RenderOnSurface(std::string Location,int x, int y,SDL_Renderer* Render);
-    bool renderFrameOnSurface(std::string Location, int srcX, int srcY, int srcWidth, int srcHeight, int destX, int destY, SDL_Renderer* renderer,SDL_Texture* texture);
+    bool renderFrameOnSurface(int srcX, int srcY, int srcWidth, int srcHeight, int destX, int destY, SDL_Renderer* renderer,SDL_Texture* texture);
     //void RenderonVector(std::string Location, int srcX, int srcY, int srcWidth, int srcHeight, int destX, int destY,std::vector<SDL_Rect>&Sprite);
     void WindowShown();
     int limit(int window_height);

@@ -6,7 +6,6 @@ Window::Window() {
     Windows = nullptr;
     WindowSurface = nullptr;
     Limit = limit(WINDOW_HEIGHT);
-    Renders = nullptr;
     
 }
 
@@ -59,8 +58,6 @@ int Window::limit(int window_height)
 
 void Window::RenderBlinky(int x, int y, SDL_Renderer* Render,SDL_Window* window,int frameIndex)
 {
-    //C:\\Users\\zulul\\Documents\\pacman\\Pacman\\source\\resources\\sprites\\blinky.png
-    std::string Location = "C:\\Users\\zulul\\Documents\\pacman\\Pacman\\source\\resources\\sprites\\blinky.png";
     
     int frameWidth = 17;
     int frameHeight = CELL_SIZE;
@@ -103,11 +100,7 @@ void Window::RenderInky(int x, int y, SDL_Renderer* Render,SDL_Window* window,in
 }
 
 void Window::RenderClyde(int x, int y, SDL_Renderer* Render,SDL_Window* window,int frameIndex)
-{
-    //C:\\Users\\zulul\\Documents\\pacman\\Pacman\\source\\resources\\sprites\\clyde.png
-    std::string Location = "C:\\Users\\zulul\\Documents\\pacman\\Pacman\\source\\resources\\sprites\\clyde.png";
-    
-    
+{       
     int frameWidth = 17;
     int frameHeight = CELL_SIZE;
 
@@ -127,10 +120,6 @@ void Window::RenderClyde(int x, int y, SDL_Renderer* Render,SDL_Window* window,i
 
 void Window::RenderPinky(int x, int y, SDL_Renderer* Render,SDL_Window* window,int frameIndex)
 {
-    //C:\\Users\\zulul\\Documents\\pacman\\Pacman\\source\\resources\\sprites\\Pinky.png
-    std::string Location = "C:\\Users\\zulul\\Documents\\pacman\\Pacman\\source\\resources\\sprites\\Pinky.png";
-    
-    
     int frameWidth = 17;
     int frameHeight = CELL_SIZE;
 
@@ -150,10 +139,6 @@ void Window::RenderPinky(int x, int y, SDL_Renderer* Render,SDL_Window* window,i
 
 void Window::RenderPacman(int x, int y, SDL_Renderer* Render,SDL_Window* window,int frameIndex)
 {
-    //Pacman thingie
-    std::string Location = "C:\\Users\\zulul\\Documents\\pacman\\Pacman\\source\\resources\\sprites\\pacman.png";
-    
-    
     int frameWidth = 17;
     int frameHeight = CELL_SIZE;
 
@@ -259,7 +244,7 @@ void Window::InitialLoad(SDL_Renderer *renderer)
     }
 }
 
-bool Window::renderFrameOnSurface(std::string Location, int srcX, int srcY, int srcWidth, int srcHeight, int destX, int destY, SDL_Renderer* renderer,SDL_Texture* texture) {
+bool Window::renderFrameOnSurface(int srcX, int srcY, int srcWidth, int srcHeight, int destX, int destY, SDL_Renderer* renderer,SDL_Texture* texture) {
 
     
     if (texture == nullptr) {
@@ -288,12 +273,9 @@ bool Window::renderFrameOnSurface(std::string Location, int srcX, int srcY, int 
     return true;
 }
 
-void Window::getRender(SDL_Renderer* render){
-    Renders = render;
-}
 
 bool Window::DrawMap(SDL_Renderer* renderer, Map One,SDL_Window* window) {
-    
+
     SDL_Rect Wall = {0, 0, 0, 0};
     bool FullyRan = false;
     int radius, centerX, centerY, rad, pointX, pointY;
