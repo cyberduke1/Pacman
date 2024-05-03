@@ -211,8 +211,9 @@ bool Window::DrawMap(SDL_Renderer *renderer, Map One)
                 }
                 break;
             case 'o':
-                SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-                SDL_RenderDrawPoint(renderer, (x + 13) * CELL_SIZE, (y + 13) * CELL_SIZE);
+                SDL_SetRenderDrawColor(renderer, 255, 0, 255, 255);
+                SDL_RenderDrawPoint(renderer, Wall.x + CELL_SIZE / 2, Wall.y + CELL_SIZE / 2);
+                DrawCircle(renderer, Wall.x + CELL_SIZE / 2, Wall.y + CELL_SIZE / 2,CELL_SIZE/6);
                 break;
             case '=':
                 SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
@@ -228,6 +229,19 @@ bool Window::DrawMap(SDL_Renderer *renderer, Map One)
 
     return FullyRan;
 }
+
+void Window::DrawCircle(SDL_Renderer * renderer, int32_t centerX, int32_t centerY, int32_t radius)
+{
+    for (int y = -radius; y <= radius; y++) {
+        for (int x = -radius; x <= radius; x++) {
+            if (x * x + y * y <= radius * radius) {
+                SDL_RenderDrawPoint(renderer, centerX + x, centerY + y);
+            }
+        }
+    }
+
+}
+
 
 
 Window::~Window()
