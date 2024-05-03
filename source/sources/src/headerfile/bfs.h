@@ -35,6 +35,8 @@ class node // Combines the two properties (parent array and visited array) into 
 public:
     point parent;
     bool visited = false;
+     std::vector<point> directions = {{-1, 0}, {0, -1}, {1, 0}, {0, 1}};
+    point getNextMove(point currentPos, std::vector<std::string>& map);
     bool isValid(vector<std::string> &maze, point &curr);
     void BFS(point &source, point &goal, vector<std::string> &maze);
 

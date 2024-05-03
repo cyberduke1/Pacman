@@ -1,5 +1,5 @@
 #include "headerfile/bfs.h"
-#include "bfs.h"
+
 
 
 bool node::isValid(vector<std::string> &maze, point &curr)
@@ -9,6 +9,24 @@ bool node::isValid(vector<std::string> &maze, point &curr)
 
     return true;
 }
+
+point node::getNextMove(point currentPos, std::vector<std::string>& map) {
+        // Iterate through possible directions
+        for (const auto& dir : directions) {
+            int nextRow = currentPos.row + dir.row;
+            int nextCol = currentPos.col + dir.col;
+
+            // Check if the next position is valid and empty
+            if (nextRow >= 0 && nextRow < map.size() &&
+                nextCol >= 0 && nextCol < map[nextRow].size() &&
+                map[nextRow][nextCol] != '#') {
+                // Return the next valid position
+                return point(nextRow, nextCol);
+            }
+        }
+        // If no valid move found, return the current position
+        return currentPos;
+    }
 
 void node::BFS(point &source, point &goal, vector<std::string> &maze)
 {

@@ -3,11 +3,14 @@
 
 #include "C:\Users\zulul\Documents\pacman\Pacman\source\sources\src\Ghost.cpp"
 
-
-class Blinky : Ghost{
+class Blinky : Ghost {
     public:
-        SDL_Rect SpriteClips[8];
-        Blinky(int cell_size); //Exact location of the pacman
+        node SecondSearch;
+        int Algorithm(point start,point destination,std::vector<std::string> map);
+        Blinky(); //Exact location of the pacman
+        void getLocation(point &c);
+        void move(std::vector<std::string> &map); // Function to move Blinky
+        point Cord;
         ~Blinky();
 };
 

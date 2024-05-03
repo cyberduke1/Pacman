@@ -1,6 +1,6 @@
 #include "headerfile/Ghost.h"
 #include <SDL2/SDL.h>
-#include "Ghost.h"
+
 
 
 Ghost::~Ghost()
@@ -18,20 +18,13 @@ Ghost::Ghost()
     SpeedY = 0;
 }
 
-int Ghost::Algorithm(point start,point destination,std::vector<std::string> map)
-{
-    getPacmanPos(map,start);
-
-    FirstSearch.BFS(start,destination,map);
-}
-
-void Ghost::getPacmanPos(std::vector<std::string> map, point &cord)
+void Ghost::getPacmanPos(std::vector<std::string> map, point &cord, char m)
 {
         for (int row = 0; row < map.size(); row++)
     {
         for (int col = 0; col < map[row].size(); col++)
         {
-            if (map[row][col] == '9')
+            if (map[row][col] == m)
             {
                 cord = {row, col};
             }
