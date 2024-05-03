@@ -2,6 +2,7 @@
 #define GHOST_H
 #include <string>
 #include <stdio.h>
+#include "C:\Users\zulul\Documents\pacman\pacman\source\sources\src\bfs.cpp"
 
 
 class Ghost{
@@ -13,14 +14,16 @@ public:
     int SpeedX;
     int SpeedY;
     int PosX,PosY;
+    point start,destination;
+    node FirstSearch;
     std::string ImgLoc;
     enum DIRECTION{FIRST_SOUTH,SECOND_SOUTH,FIRST_EAST,SECOND_EAST,FIRST_NORTH,SECOND_NORTH,FIRST_WEST,SECOND_WEST}; //first and second entries are used to choose the eyes for the sprite at the time
     enum STATE{CHILLED,ANGRY,PISSED};
     enum SPEED{SLOW,MEDIUM,FAST};
-    void Load_State_IMG();
+    void getPacmanPos(std::vector<std::string> map, point &cord);
     ~Ghost();
 private:
-    int Algorithm(std::string destination);
+    int Algorithm(point start,point destination,std::vector<std::string> map);
     int Change_State();
 };
 

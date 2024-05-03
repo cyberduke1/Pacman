@@ -1,11 +1,7 @@
 #include "headerfile/Ghost.h"
 #include <SDL2/SDL.h>
+#include "Ghost.h"
 
-
-void Ghost::Load_State_IMG()
-{
-
-}
 
 Ghost::~Ghost()
 {
@@ -22,9 +18,26 @@ Ghost::Ghost()
     SpeedY = 0;
 }
 
-int Ghost::Algorithm(std::string destination)
+int Ghost::Algorithm(point start,point destination,std::vector<std::string> map)
 {
-    return 0;
+    getPacmanPos(map,start);
+
+    FirstSearch.BFS(start,destination,map);
+}
+
+void Ghost::getPacmanPos(std::vector<std::string> map, point &cord)
+{
+        for (int row = 0; row < map.size(); row++)
+    {
+        for (int col = 0; col < map[row].size(); col++)
+        {
+            if (map[row][col] == '9')
+            {
+                cord = {row, col};
+            }
+        }
+    }
+    
 }
 
 int Ghost::Change_State()

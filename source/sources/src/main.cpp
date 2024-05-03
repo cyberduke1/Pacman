@@ -144,5 +144,5 @@ std::pair<int,int> getPacmanPos(std::vector<std::string> map)
             }
         }
     }
-    return {-1, -1}; 
+    
 }

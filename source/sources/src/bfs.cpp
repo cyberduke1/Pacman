@@ -1,18 +1,8 @@
 #include "headerfile/bfs.h"
 #include "bfs.h"
 
-void node::Display(vector<vector<char>> &maze)
-{
-    for (int r = 0; r < numRows; r++)
-    {
-        for (int c = 0; c < numCols; c++)
-            cout << maze[r][c];
 
-        cout << endl;
-    }
-}
-
-bool node::isValid(vector<vector<char>> &maze, point &curr)
+bool node::isValid(vector<std::string> &maze, point &curr)
 {
     if (curr.row < 0 || curr.row >= numRows || curr.col < 0 || curr.col >= numCols || maze[curr.row][curr.col] == 'x')
         return false;
@@ -20,7 +10,7 @@ bool node::isValid(vector<vector<char>> &maze, point &curr)
     return true;
 }
 
-void node::BFS(point &source, point &goal, vector<vector<char>> &maze)
+void node::BFS(point &source, point &goal, vector<std::string> &maze)
 {
     vector<vector<node>> nodes(numRows, vector<node>(numCols, node()));     // Will track our visits and update values as we go
     vector<pair<int, int>> neighbours = {{1, 0}, {0, -1}, {-1, 0}, {0, 1}}; // Used to traverse cell neighbours
@@ -47,17 +37,16 @@ void node::BFS(point &source, point &goal, vector<vector<char>> &maze)
     }
 
     if (toVisit.empty() && !nodes[goal.row][goal.col].visited)
-        cout << "No Path" << endl;
+        return;
     else
     {
         point curr = nodes[goal.row][goal.col].parent;
 
         while (curr != source)
         {
-            maze[curr.row][curr.col] = '*';
+            maze[curr.row][curr.col] = '.';
             curr = nodes[curr.row][curr.col].parent;
         }
 
-        Display(maze);
     }
 }
