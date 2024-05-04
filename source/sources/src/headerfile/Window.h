@@ -24,10 +24,8 @@ class Window
 {
 
 private:
-    SDL_Texture* LoadSprite(const std::string &location, SDL_Renderer *renderer, int spriteIndex);
-    SDL_Texture* LoadSprites(const std::string &location, SDL_Renderer *renderer, int rowIndex, int colIndex, int numRows, int numCols);
+
     void DrawCircle(SDL_Renderer * renderer, int32_t centreX, int32_t centreY, int32_t radius);
-    std::vector<std::string> Located;
 
     std::vector<SDL_Texture *> BlinkySprites;
     std::vector<SDL_Texture *> InkySprites;
@@ -42,6 +40,9 @@ public:
     //Methods
     void InitialLoad(SDL_Renderer *renderer);
     bool DrawMap(SDL_Renderer *renderer, Map map);
+    SDL_Texture* LoadSprite(const std::string &location, SDL_Renderer *renderer, int spriteIndex);
+    SDL_Texture* LoadSprites(const std::string &location, SDL_Renderer *renderer, int rowIndex, int colIndex, int numRows, int numCols);
+    std::vector<std::string> Located;
     Window();
     ~Window();
 };
