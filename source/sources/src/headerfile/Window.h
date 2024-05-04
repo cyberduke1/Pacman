@@ -1,12 +1,7 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
-#pragma once
-#include <vector>
-#include <string>
-#include <iostream>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
+
 
 #define CELL_SIZE 20
 #define LIMIT 21

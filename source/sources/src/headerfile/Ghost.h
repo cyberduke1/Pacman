@@ -1,7 +1,7 @@
 #ifndef GHOST_H
 #define GHOST_H
 #include <string>
-#include <stdio.h>
+
 #include "C:\Users\zulul\Documents\pacman\pacman\source\sources\src\bfs.cpp"
 
 
