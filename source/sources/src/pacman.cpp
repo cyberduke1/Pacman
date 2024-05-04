@@ -1,18 +1,10 @@
 #include "headerfile/pacman.h"
-
-
-void pacman::updatePos(int dir)
-{
-    Direction = dir;
-}
+#include "pacman.h"
 
 pacman::pacman()
 {
-
-    Direction = FIRST_WEST;
 }
 
 pacman::~pacman()
 {
-
 }

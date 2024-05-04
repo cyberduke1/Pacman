@@ -14,9 +14,5 @@ class pacman{
             FIRST_WEST, SECOND_WEST
         };
         int Direction;
-
-        void updatePos(int dir);
-    //private:
-        
 };
 #endif
