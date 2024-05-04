@@ -1,63 +1,84 @@
-#include "mann.cpp"
+#include "Window.cpp"
+#include <iostream>
+#include <utility>
 
-#define FALSE 0
-#define TRUE 1
+std::pair<int,int> getPacmanPos(std::vector<std::string> map);
 
+std::vector<std::string> map = {
+    " ################### ",
+    " #........#........# ",
+    " #o##.###.#.###.##o# ",
+    " #.................# ",
+    " #.##.#.#####.#.##.# ",
+    " #....#...#...#....# ",
+    " ####.### # ###.#### ",
+    "    #.#   0   #.#    ",
+    "#####.# ##=## #.#####",
+    "     .  #123#  .     ",
+    "#####.# ##### #.#####",
+    "    #.#       #.#    ",
+    " ####.# ##### #.#### ",
+    " #........#........# ",
+    " #.##.###.#.###.##.# ",
+    " #o.#.....9.....#.o# ",
+    " ##.#.#.#####.#.#.## ",
+    " #....#...#...#....# ",
+    " #.######.#.######.# ",
+    " #.................# ",
+    " ################### "
+};
 
-Window MainWindow;
-SDL_Window *window = nullptr;
-SDL_Renderer *renderer = nullptr;
-SDL_Texture *Texture = nullptr;
-int GameRunning = FALSE;
+int main(int argc, char *argv[])
+{
+    Window MainWindow;
 
+    SDL_Window *window = nullptr;
+    SDL_Renderer *renderer = nullptr;
+    SDL_Texture *Texture = nullptr;
 
-
-int initialize_window(void){
-
-    if(SDL_Init(SDL_INIT_EVERYTHING )!= 0){
-
-        std::cout<<SDL_GetError()<<"\n";
-        return FALSE;
-    }
+    SDL_Init(SDL_INIT_VIDEO);
 
     window = SDL_CreateWindow("PacMan", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, MainWindow.WINDOW_WIDTH, MainWindow.WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
+
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
-    if(window == nullptr){
-        std::cout<<SDL_GetError()<<"\n";
-        return FALSE;
-    }
+    MainWindow.InitialLoad(renderer);
 
-    if(renderer == nullptr){
-        std::cout<<SDL_GetError()<<"\n";
-        return FALSE;
-    }
-    return TRUE;
-}
-
-
-void process_input(){
-    SDL_Event e;
-    bool quit = false;
+    // Initial position of Pacman
     std::pair<int,int> pacmanPos = getPacmanPos(map);
     int pacmanX = pacmanPos.second; 
     int pacmanY = pacmanPos.first;
 
+    bool quit = false;
+    SDL_Event e;
 
-    SDL_PollEvent(&e);
-
-    switch (e.type)
+    while (!quit)
     {
-    case SDL_QUIT:
-        GameRunning = FALSE;
-        break;
-    case SDL_KEYDOWN:
+        while (SDL_PollEvent(&e) != 0)
+        {
+            map[pacmanY] = map[pacmanY].substr(0, pacmanX) + '9' + map[pacmanY].substr(pacmanX + 1);
+            SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+            SDL_RenderClear(renderer);
         
-        switch (e.key.keysym.sym)
+        
+            map[pacmanY] = map[pacmanY].substr(0, pacmanX) + '9' + map[pacmanY].substr(pacmanX + 1);
+
+            if (!MainWindow.DrawMap(renderer, map))
+            {
+                break;
+            }
+            SDL_RenderPresent(renderer);
+
+
+            if (e.type == SDL_QUIT)
+            {
+                quit = true;
+            }
+            else if (e.type == SDL_KEYDOWN)
+            {
+                
+                switch (e.key.keysym.sym)
                 {
-                case SDLK_ESCAPE:
-                    GameRunning = FALSE;
-                    break;
                 case SDLK_UP:
                     if (pacmanY > 0 && map[pacmanY - 1][pacmanX] != '#' && map[pacmanY - 1][pacmanX] != '=')
                     {
@@ -103,30 +124,6 @@ void process_input(){
                     }
                     break;
                 }
-        break;
-    default:
-        break;
-    }
-
-    while (!quit)
-    {
-        while (SDL_PollEvent(&e) != 0)
-        {
-            if (!MainWindow.DrawMap(renderer, map))
-            {
-                break;
-            }
-            SDL_RenderPresent(renderer);
-
-
-            if (e.type == SDL_QUIT)
-            {
-                quit = true;
-            }
-            else if (e.type == SDL_KEYDOWN)
-            {
-                
-                
             }
         }
 
@@ -142,31 +139,25 @@ void process_input(){
         }
         SDL_RenderPresent(renderer);
     }
-}
-void update(){
-    
-}
-void render(){
-    
-}
-
-void end_window(){
 
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
-
-}
-int main(int agrv,char* argc[]){
-
-    GameRunning = initialize_window();
-    setup();
-
-    while(GameRunning){
-        process_input();
-        update();
-        render();
-    }
-
     return 0;
 }
+
+std::pair<int,int> getPacmanPos(std::vector<std::string> map)
+{
+    for (int row = 0; row < map.size(); row++)
+    {
+        for (int col = 0; col < map[row].size(); col++)
+        {
+            if (map[row][col] == '9')
+            {
+                return {row, col};
+            }
+        }
+    }
+    return {-1, -1}; // Pacman not found
+}
+
