@@ -31,10 +31,22 @@ std::vector<std::string> map = {
 int main(int argc, char *argv[])
 {
     Window MainWindow;
+    enum DIRECTION{
+
+            FIRST_SOUTH, SECOND_SOUTH, 
+            FIRST_EAST, SECOND_EAST,
+            FIRST_NORTH, SECOND_NORTH,
+            FIRST_WEST, SECOND_WEST
+};
+
 
     SDL_Window *window = nullptr;
     SDL_Renderer *renderer = nullptr;
     SDL_Texture *Texture = nullptr;
+    SDL_Rect Wall;
+    int PrevFrameTime = 0;
+    float deltaTime = 0;
+
 
     SDL_Init(SDL_INIT_VIDEO);
 
@@ -54,10 +66,11 @@ int main(int argc, char *argv[])
 
     while (!quit)
     {
+        deltaTime = (SDL_GetTicks() - PrevFrameTime)/1000.0;
+        PrevFrameTime = SDL_GetTicks();
+        
         while (SDL_PollEvent(&e) != 0)
         {
-           
-
             if (e.type == SDL_QUIT)
             {
                 quit = true;
@@ -111,7 +124,122 @@ int main(int argc, char *argv[])
                         ++pacmanX;
                     }
                     break;
+                default:
+                    if(FIRST_SOUTH || SECOND_SOUTH) {
+
+                        if (pacmanY < map.size() - 1 && map[pacmanY + 1][pacmanX] != '#' && map[pacmanY + 1][pacmanX] != '='){
+
+                            SDL_Texture *spriteTexture = MainWindow.LoadSprites(MainWindow.Located[4], renderer, 0, 0, 4, 2);
+                            if (spriteTexture != nullptr){
+                                int var = (pacmanY+1)*deltaTime;
+                                Wall = {pacmanX , var , CELL_SIZE,CELL_SIZE};
+                                SDL_RenderCopy(renderer, spriteTexture, nullptr, &Wall);
+                                SDL_DestroyTexture(spriteTexture);
+                            }
+                            ++pacmanY;
+                        }
+
+                    }
+                    else if(FIRST_EAST || SECOND_EAST){
+                        if (pacmanX < map[pacmanY].size() - 1 && map[pacmanY][pacmanX + 1] != '#' && map[pacmanY][pacmanX + 1] != '='){
+                            SDL_Texture *spriteTexture = MainWindow.LoadSprites(MainWindow.Located[4], renderer, 0, 0, 4, 2);
+                            if (spriteTexture != nullptr){
+                                int var = (pacmanX+1)*deltaTime;
+                                Wall = {var , pacmanY , CELL_SIZE,CELL_SIZE};
+                                SDL_RenderCopy(renderer, spriteTexture, nullptr, &Wall);
+                                SDL_DestroyTexture(spriteTexture);
+                            }
+
+                            ++pacmanX;
+                        }
+                    }
+                    else if(FIRST_NORTH || SECOND_NORTH ){
+                        if (pacmanY > 0 && map[pacmanY - 1][pacmanX] != '#' && map[pacmanY - 1][pacmanX] != '='){
+                            SDL_Texture *spriteTexture = MainWindow.LoadSprites(MainWindow.Located[4], renderer, 0, 0, 4, 2);
+                            if (spriteTexture != nullptr){
+                                int var = (pacmanY-1)*deltaTime;
+                                Wall = {pacmanX , var , CELL_SIZE,CELL_SIZE};
+                                SDL_RenderCopy(renderer, spriteTexture, nullptr, &Wall);
+                                SDL_DestroyTexture(spriteTexture);
+                            }
+
+                            --pacmanY;
+                        }
+                        
+                    }
+                    else if(FIRST_WEST || SECOND_WEST){
+                        if (pacmanX > 0 && map[pacmanY][pacmanX - 1] != '#' && map[pacmanY][pacmanX - 1] != '='){
+                            SDL_Texture *spriteTexture = MainWindow.LoadSprites(MainWindow.Located[4], renderer, 0, 0, 4, 2);
+                            if (spriteTexture != nullptr){
+                                int var = (pacmanX-1)*deltaTime;
+                                Wall = {var , pacmanY , CELL_SIZE,CELL_SIZE};
+                                SDL_RenderCopy(renderer, spriteTexture, nullptr, &Wall);
+                                SDL_DestroyTexture(spriteTexture);
+                            }
+
+                            --pacmanX;
+                        }
+                        
+                    }
+                    break;
                 }
+            }else{
+                    if(FIRST_SOUTH || SECOND_SOUTH) {
+
+                        if (pacmanY < map.size() - 1 && map[pacmanY + 1][pacmanX] != '#' && map[pacmanY + 1][pacmanX] != '='){
+
+                            SDL_Texture *spriteTexture = MainWindow.LoadSprites(MainWindow.Located[4], renderer, 0, 0, 4, 2);
+                            if (spriteTexture != nullptr){
+                                int var = (pacmanY+1)*deltaTime;
+                                Wall = {pacmanX , var , CELL_SIZE,CELL_SIZE};
+                                SDL_RenderCopy(renderer, spriteTexture, nullptr, &Wall);
+                                SDL_DestroyTexture(spriteTexture);
+                            }
+                            ++pacmanY;
+                        }
+
+                    }
+                    else if(FIRST_EAST || SECOND_EAST){
+                        if (pacmanX < map[pacmanY].size() - 1 && map[pacmanY][pacmanX + 1] != '#' && map[pacmanY][pacmanX + 1] != '='){
+                            SDL_Texture *spriteTexture = MainWindow.LoadSprites(MainWindow.Located[4], renderer, 0, 0, 4, 2);
+                            if (spriteTexture != nullptr){
+                                int var = (pacmanX+1)*deltaTime;
+                                Wall = {var , pacmanY , CELL_SIZE,CELL_SIZE};
+                                SDL_RenderCopy(renderer, spriteTexture, nullptr, &Wall);
+                                SDL_DestroyTexture(spriteTexture);
+                            }
+
+                            ++pacmanX;
+                        }
+                    }
+                    else if(FIRST_NORTH || SECOND_NORTH ){
+                        if (pacmanY > 0 && map[pacmanY - 1][pacmanX] != '#' && map[pacmanY - 1][pacmanX] != '='){
+                            SDL_Texture *spriteTexture = MainWindow.LoadSprites(MainWindow.Located[4], renderer, 0, 0, 4, 2);
+                            if (spriteTexture != nullptr){
+                                int var = (pacmanY-1)*deltaTime;
+                                Wall = {pacmanX , var , CELL_SIZE,CELL_SIZE};
+                                SDL_RenderCopy(renderer, spriteTexture, nullptr, &Wall);
+                                SDL_DestroyTexture(spriteTexture);
+                            }
+
+                            --pacmanY;
+                        }
+                        
+                    }
+                    else if(FIRST_WEST || SECOND_WEST){
+                        if (pacmanX > 0 && map[pacmanY][pacmanX - 1] != '#' && map[pacmanY][pacmanX - 1] != '='){
+                            SDL_Texture *spriteTexture = MainWindow.LoadSprites(MainWindow.Located[4], renderer, 0, 0, 4, 2);
+                            if (spriteTexture != nullptr){
+                                int var = (pacmanX-1)*deltaTime;
+                                Wall = {var , pacmanY , CELL_SIZE,CELL_SIZE};
+                                SDL_RenderCopy(renderer, spriteTexture, nullptr, &Wall);
+                                SDL_DestroyTexture(spriteTexture);
+                            }
+
+                            --pacmanX;
+                        }
+                        
+                    }
             }
         }
 
