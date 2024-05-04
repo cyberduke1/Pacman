@@ -1,6 +1,7 @@
 #include "Window.cpp"
 #include <iostream>
 #include <utility>
+#include "pacman.cpp"
 
 std::pair<int,int> getPacmanPos(std::vector<std::string> map);
 
@@ -31,10 +32,21 @@ std::vector<std::string> map = {
 int main(int argc, char *argv[])
 {
     Window MainWindow;
+    pacman Pacman;
+    enum DIRECTION{
+
+            FIRST_SOUTH, SECOND_SOUTH, 
+            FIRST_EAST, SECOND_EAST,
+            FIRST_NORTH, SECOND_NORTH,
+            FIRST_WEST, SECOND_WEST
+        };
 
     SDL_Window *window = nullptr;
     SDL_Renderer *renderer = nullptr;
     SDL_Texture *Texture = nullptr;
+    int PrevFrameTime = 0;
+    float deltaTime = 0;
+    
 
     SDL_Init(SDL_INIT_VIDEO);
 
@@ -54,6 +66,12 @@ int main(int argc, char *argv[])
 
     while (!quit)
     {
+        SDL_Delay(1000);
+        deltaTime = (SDL_GetTicks() - PrevFrameTime)/1000.0;
+        //pacman default pos PacmanPos.x += PacmanPos.x*delta time
+
+        PrevFrameTime = SDL_GetTicks();
+        
         while (SDL_PollEvent(&e) != 0)
         {
             map[pacmanY] = map[pacmanY].substr(0, pacmanX) + '9' + map[pacmanY].substr(pacmanX + 1);
@@ -123,7 +141,37 @@ int main(int argc, char *argv[])
                         ++pacmanX;
                     }
                     break;
-                }
+                default:
+                    
+                    if(FIRST_SOUTH || SECOND_SOUTH) {
+
+                        if (pacmanY < map.size() - 1 && map[pacmanY + 1][pacmanX] != '#' && map[pacmanY + 1][pacmanX] != '='){
+
+                            ++pacmanY;
+                        }
+
+                    }
+                    else if(FIRST_EAST || SECOND_EAST){
+                        if (pacmanX < map[pacmanY].size() - 1 && map[pacmanY][pacmanX + 1] != '#' && map[pacmanY][pacmanX + 1] != '='){
+
+                            ++pacmanX;
+                        }
+                    }
+                    else if(FIRST_NORTH || SECOND_NORTH ){
+                        if (pacmanY > 0 && map[pacmanY - 1][pacmanX] != '#' && map[pacmanY - 1][pacmanX] != '='){
+
+                            --pacmanY;
+                        }
+                        
+                    }
+                    else if(FIRST_WEST || SECOND_WEST){
+                        if (pacmanX > 0 && map[pacmanY][pacmanX - 1] != '#' && map[pacmanY][pacmanX - 1] != '='){
+
+                            --pacmanX;
+                        }
+                        
+                    }
+                    
             }
         }
 
