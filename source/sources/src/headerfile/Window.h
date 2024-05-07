@@ -21,9 +21,6 @@ private:
     std::vector<SDL_Texture *> PacmanSprites;
 
 public:
-    int const WINDOW_HEIGHT = 960;
-    int const WINDOW_WIDTH = 960;
-
     //Methods
     void InitialLoad(SDL_Renderer *renderer);
     bool DrawMap(SDL_Renderer *renderer, Map map);

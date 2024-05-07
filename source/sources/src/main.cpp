@@ -39,77 +39,16 @@ enum DIRECTION {
     SECOND_WEST
 };
 
+void Init();
+void EventListener();
+
 int main(int argc, char *argv[])
 {
-    Window MainWindow;
-
-    SDL_Window *window = nullptr;
-    SDL_Renderer *renderer = nullptr;
-    int PrevFrameTime = 0;
-
-    SDL_Init(SDL_INIT_VIDEO);
-
-    window = SDL_CreateWindow("PacMan", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, MainWindow.WINDOW_WIDTH, MainWindow.WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
-
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-
-    MainWindow.InitialLoad(renderer);
-
-    // Initial position of Pacman
-    std::pair<int, int> pacmanPos = getPacmanPos(map);
-    int pacmanX = pacmanPos.second;
-    int pacmanY = pacmanPos.first;
-
-    bool quit = false;
-    SDL_Event e;
+    Init();
 
     while (!quit)
     {
-        float deltaTime = (SDL_GetTicks() - PrevFrameTime) / 1000.0;
-        PrevFrameTime = SDL_GetTicks();
-
-        while (SDL_PollEvent(&e) != 0)
-        {
-            if (e.type == SDL_QUIT)
-            {
-                quit = true;
-            }
-            else if (e.type == SDL_KEYDOWN)
-            {
-                switch (e.key.keysym.sym)
-                {
-                case SDLK_UP:
-                    if (pacmanY > 0 && map[pacmanY - 1][pacmanX] != '#' && map[pacmanY - 1][pacmanX] != '=')
-                    {
-                        map[pacmanY][pacmanX] = ' '; // Clear previous position
-                        --pacmanY;
-                    }
-                    break;
-                case SDLK_DOWN:
-                    if (pacmanY < map.size() - 1 && map[pacmanY + 1][pacmanX] != '#' && map[pacmanY + 1][pacmanX] != '=')
-                    {
-                        map[pacmanY][pacmanX] = ' '; // Clear previous position
-                        ++pacmanY;
-                    }
-                    break;
-                case SDLK_LEFT:
-                    if (pacmanX > 0 && map[pacmanY][pacmanX - 1] != '#' && map[pacmanY][pacmanX - 1] != '=')
-                    {
-                        map[pacmanY][pacmanX] = ' '; // Clear previous position
-                        --pacmanX;
-                    }
-                    break;
-                case SDLK_RIGHT:
-                    if (pacmanX < map[pacmanY].size() - 1 && map[pacmanY][pacmanX + 1] != '#' && map[pacmanY][pacmanX + 1] != '=')
-                    {
-                        map[pacmanY][pacmanX] = ' '; // Clear previous position
-                        ++pacmanX;
-                    }
-                    break;
-                }
-            }
-        }
-
+        EventListener();
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
 
@@ -141,4 +80,67 @@ std::pair<int, int> getPacmanPos(std::vector<std::string> map)
         }
     }
     return {-1, -1}; // Pacman not found
+}
+
+void Init(){
+
+    SDL_Init(SDL_INIT_VIDEO);
+
+    window = SDL_CreateWindow("PacMan", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,WINDOW_WIDTH,WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
+
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+
+    MainWindow.InitialLoad(renderer);
+
+    pacmanPos = getPacmanPos(map);
+    pacmanX = pacmanPos.second;
+    pacmanY = pacmanPos.first;
+}
+
+void EventListener()
+{
+        float deltaTime = (SDL_GetTicks() - PrevFrameTime) / 1000.0;
+        PrevFrameTime = SDL_GetTicks();
+
+        while (SDL_PollEvent(&e) != 0)
+        {
+            if (e.type == SDL_QUIT)
+            {
+                quit = true;
+            }
+            else if (e.type == SDL_KEYDOWN)
+            {
+                switch (e.key.keysym.sym)
+                {
+                case SDLK_UP:
+                    if (pacmanY > 0 && map[pacmanY - 1][pacmanX] != '#' && map[pacmanY - 1][pacmanX] != '='  && map[pacmanY - 1][pacmanX] != '0'  && map[pacmanY - 1][pacmanX] != '1' && map[pacmanY - 1][pacmanX] != '2' && map[pacmanY - 1][pacmanX] != '3')
+                    {
+                        map[pacmanY][pacmanX] = ' '; // Clear previous position
+                        --pacmanY;
+                    }
+                    break;
+                case SDLK_DOWN:
+                    if (pacmanY < map.size() - 1 && map[pacmanY + 1][pacmanX] != '#' && map[pacmanY + 1][pacmanX] != '=' && map[pacmanY + 1][pacmanX] != '0'  && map[pacmanY + 1][pacmanX] != '1' && map[pacmanY + 1][pacmanX] != '2'  && map[pacmanY + 1][pacmanX] != '3')
+                    {
+                        map[pacmanY][pacmanX] = ' '; // Clear previous position
+                        ++pacmanY;
+                    }
+                    break;
+                case SDLK_LEFT:
+                    if (pacmanX > 0 && map[pacmanY][pacmanX - 1] != '#' && map[pacmanY][pacmanX - 1] != '=' &&map[pacmanY][pacmanX - 1] != '0' && map[pacmanY][pacmanX - 1] != '1' && map[pacmanY][pacmanX - 1] != '2' && map[pacmanY][pacmanX - 1] != '3')
+                    {
+                        map[pacmanY][pacmanX] = ' '; // Clear previous position
+                        --pacmanX;
+                    }
+                    break;
+                case SDLK_RIGHT:
+                    if (pacmanX < map[pacmanY].size() - 1 && map[pacmanY][pacmanX + 1] != '#' && map[pacmanY][pacmanX + 1] != '=' && map[pacmanY][pacmanX + 1] != '0' && map[pacmanY][pacmanX + 1] != '1' && map[pacmanY][pacmanX + 1] != '2' && map[pacmanY][pacmanX + 1] != '3')
+                    {
+                        map[pacmanY][pacmanX] = ' '; // Clear previous position
+                        ++pacmanX;
+                    }
+                    break;
+            }
+        }
+    }
 }
