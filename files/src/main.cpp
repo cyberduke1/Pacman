@@ -19,7 +19,7 @@ int main(int argv,char *argc[]){
     int CurrentStage = 1;
     LoadMaps.Stages(CurrentStage);
     DrawMap(MainRenderer,LoadMaps.Stages(CurrentStage),Pacman,LoadMaps);
-
+    SDL_RenderPresent(MainRenderer);
     while(!quit){
         while(SDL_PollEvent(&event) != 0){
 

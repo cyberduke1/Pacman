@@ -3,12 +3,15 @@
 void pacman::InitPacman(SDL_Renderer *renderer)
 {
     pacLocation = "C:\\Users\\zulul\\Documents\\pacman\\mrs pacman\\files\\resources\\sprites\\pacman.png";
-    SDL_Texture *texture = IMG_LoadTexture(renderer,pacLocation.c_str());
+    SDL_Texture *texture = IMG_LoadTexture(renderer, pacLocation.c_str());
     if (texture == nullptr)
     {
         std::cout << "Unable to load pacman image " << pacLocation << "! SDL_image Error: " << IMG_GetError() << std::endl;
     }
-    PacmanSprites.push_back(texture);
+    else
+    {
+        PacmanSprites.push_back(texture);
+    }
 }
 
 pacman::pacman(SDL_Renderer *renderer)
@@ -32,14 +35,15 @@ std::pair<int, int> pacman::getPacmanPos(std::vector<std::string> map)
 SDL_Texture *pacman::LoadSprites(SDL_Renderer *renderer, int rowIndex, int colIndex, int numRows, int numCols)
 {
     SDL_Texture *texture = nullptr;
-    SDL_Surface *loadedSurface = IMG_Load(pacLocation.c_str());
+
+    std::string Location = "C:\\Users\\zulul\\Documents\\pacman\\mrs pacman\\files\\resources\\sprites\\pacman.png";
+    SDL_Surface *loadedSurface = IMG_Load(Location.c_str());
     if (loadedSurface == nullptr)
     {
-        std::cout << "Unable to load pacman image " << pacLocation << "! SDL_image Error: " << IMG_GetError() << std::endl;
+        std::cout << "Unable to load pacman image " << Location << "! SDL_image Error: " << IMG_GetError() << std::endl;
     }
     else
     {
-
         int spriteWidth = loadedSurface->w / numCols;
         int spriteHeight = loadedSurface->h / numRows;
 
@@ -52,7 +56,7 @@ SDL_Texture *pacman::LoadSprites(SDL_Renderer *renderer, int rowIndex, int colIn
         SDL_Surface *spriteSurface = SDL_CreateRGBSurfaceWithFormat(0, spriteWidth, spriteHeight, 32, SDL_PIXELFORMAT_RGBA32);
         if (spriteSurface == nullptr)
         {
-            std::cout << "Unable to create surface for sprite from pacman image " << pacLocation << "! SDL Error: " << SDL_GetError() << std::endl;
+            std::cout << "Unable to create surface for sprite from pacman image " << Location << "! SDL Error: " << SDL_GetError() << std::endl;
         }
         else
         {
