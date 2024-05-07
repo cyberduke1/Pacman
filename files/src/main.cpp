@@ -65,8 +65,35 @@ void DrawMap(SDL_Renderer *renderer, Map One,pacman Pacman,Window LoadMap)
                 break;
 
             case '9':
-                
-                PacmanTextures = Pacman.LoadSprites(renderer, 0, 0, 4, 2);
+                switch (Pacman.Direction)
+                {
+                    case Pacman.FIRST_SOUTH:
+                        PacmanTextures = Pacman.LoadSprites(renderer, Pacman.SpriteCord[3].first, Pacman.SpriteCord[0].second, 4, 2);
+                        break;
+                    case Pacman.SECOND_SOUTH:
+                        PacmanTextures = Pacman.LoadSprites(renderer, Pacman.SpriteCord[3].first, Pacman.SpriteCord[1].second, 4, 2);
+                        break;
+                    case Pacman.FIRST_EAST:
+                        PacmanTextures = Pacman.LoadSprites(renderer, Pacman.SpriteCord[1].first, Pacman.SpriteCord[0].second, 4, 2);
+                        break;
+                    case Pacman.SECOND_EAST:
+                        PacmanTextures = Pacman.LoadSprites(renderer, Pacman.SpriteCord[1].first, Pacman.SpriteCord[1].second, 4, 2);
+                        break;
+                    case Pacman.FIRST_NORTH:
+                        PacmanTextures = Pacman.LoadSprites(renderer, Pacman.SpriteCord[3].first, Pacman.SpriteCord[0].second, 4, 2);
+                        break;
+                    case Pacman.SECOND_NORTH:
+                        PacmanTextures = Pacman.LoadSprites(renderer, Pacman.SpriteCord[3].first, Pacman.SpriteCord[1].second, 4, 2);
+                        break;
+                    case Pacman.FIRST_WEST:
+                        PacmanTextures = Pacman.LoadSprites(renderer, Pacman.SpriteCord[0].first, Pacman.SpriteCord[0].second, 4, 2);
+                        break;
+                    case Pacman.SECOND_WEST:
+                        PacmanTextures = Pacman.LoadSprites(renderer, Pacman.SpriteCord[0].first, Pacman.SpriteCord[1].second, 4, 2);
+                        break;
+                    default:
+                        break;
+                }
                 if (PacmanTextures != nullptr){
 
                     SDL_RenderCopy(renderer, PacmanTextures, nullptr, &Wall);
