@@ -19,6 +19,7 @@
 #define TARGETFPS 1000/FPS
 const int WINDOW_WIDTH = 960;
 const int WINDOW_HEIGHT = 960;
+int PreviousFrameTime = 0;
 
 
 

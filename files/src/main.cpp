@@ -7,8 +7,8 @@ SDL_Renderer *MainRenderer = nullptr;
 SDL_Event event;
 
 void Init();
-void DrawMap(SDL_Renderer *renderer, Map One,pacman Pacman,Window LoadMap);
-void Update(pacman Pacman,Window LoadMaps);
+void DrawMap(SDL_Renderer *renderer,Map One,pacman Pacman,Window LoadMap);
+int Update(pacman &Pacman,Map &One,Window LoadMaps,int index);
 
 int main(int argv,char *argc[]){
 
@@ -18,8 +18,9 @@ int main(int argv,char *argc[]){
     Window LoadMaps;
     bool quit = false;
     int CurrentStage = 1;
+    int DefaultLoadedSprite = 0;
     Map UpdatedState = LoadMaps.Stages(CurrentStage);
-    DrawMap(MainRenderer,LoadMaps.Stages(CurrentStage),Pacman,LoadMaps);
+    DrawMap(MainRenderer,UpdatedState,Pacman,LoadMaps);
     SDL_RenderPresent(MainRenderer);
     while(!quit){
         while(SDL_PollEvent(&event) != 0){
@@ -28,6 +29,7 @@ int main(int argv,char *argc[]){
                 quit = true;
                 break;
             }
+            DefaultLoadedSprite = Update(Pacman,UpdatedState,LoadMaps,DefaultLoadedSprite);
         }
     }
 
@@ -119,72 +121,68 @@ void DrawMap(SDL_Renderer *renderer, Map One,pacman Pacman,Window LoadMap)
     
 }
 
-void Update(pacman Pacman,Map map)
+int Update(pacman &Pacman, Map &map, Window LoadMaps, int index)
 {
     SDL_Texture* PacmanTextures = nullptr;
+    float DeltaTime = (SDL_GetTicks()-PreviousFrameTime)/1000.0;
     int pacmanY = Pacman.getPacmanPos(map).second;
     int pacmanX = Pacman.getPacmanPos(map).first;
+
+    while(!SDL_TICKS_PASSED(SDL_GetTicks(),PreviousFrameTime+TARGETFPS));
+    PreviousFrameTime = SDL_GetTicks();
+
+    // Check the current direction of Pac-Man and move accordingly
     switch (Pacman.Direction)
     {
         case Pacman.FIRST_SOUTH:
-            if (pacmanY > 0 && map[pacmanY + 1][pacmanX] != '#' && map[pacmanY + 1][pacmanX] != '='  && map[pacmanY + 1][pacmanX] != '0'  && map[pacmanY + 1][pacmanX] != '1' && map[pacmanY + 1][pacmanX] != '2' && map[pacmanY + 1][pacmanX] != '3'){
-                pacmanY++;
-                map[pacmanY][pacmanX] = '9';
-            }
-            break;
         case Pacman.SECOND_SOUTH:
-            if (pacmanY > 0 && map[pacmanY + 1][pacmanX] != '#' && map[pacmanY + 1][pacmanX] != '='  && map[pacmanY + 1][pacmanX] != '0'  && map[pacmanY + 1][pacmanX] != '1' && map[pacmanY + 1][pacmanX] != '2' && map[pacmanY + 1][pacmanX] != '3'){
-                pacmanY++;
+            if (pacmanY < map.size() - 1 && map[pacmanY + 1][pacmanX] != '#' && map[pacmanY + 1][pacmanX] != '=' && map[pacmanY + 1][pacmanX] != '0' && map[pacmanY + 1][pacmanX] != '1' && map[pacmanY + 1][pacmanX] != '2' && map[pacmanY + 1][pacmanX] != '3'){
+                pacmanY += CELL_SIZE*DeltaTime;
                 map[pacmanY][pacmanX] = '9';
             }
             break;
         case Pacman.FIRST_EAST:
-            if (pacmanX > 0 && map[pacmanY][pacmanX - 1] != '#' && map[pacmanY][pacmanX - 1] != '=' &&map[pacmanY][pacmanX - 1] != '0' && map[pacmanY][pacmanX - 1] != '1' && map[pacmanY][pacmanX - 1] != '2' && map[pacmanY][pacmanX - 1] != '3')
-            {
-                --pacmanX;
-                map[pacmanY][pacmanX] = '9';
-                
-            }
-            break;
         case Pacman.SECOND_EAST:
-            if (pacmanX > 0 && map[pacmanY][pacmanX - 1] != '#' && map[pacmanY][pacmanX - 1] != '=' &&map[pacmanY][pacmanX - 1] != '0' && map[pacmanY][pacmanX - 1] != '1' && map[pacmanY][pacmanX - 1] != '2' && map[pacmanY][pacmanX - 1] != '3')
+            if (pacmanX < map[pacmanY].size() - 1 && map[pacmanY][pacmanX + 1] != '#' && map[pacmanY][pacmanX + 1] != '=' && map[pacmanY][pacmanX + 1] != '0' && map[pacmanY][pacmanX + 1] != '1' && map[pacmanY][pacmanX + 1] != '2' && map[pacmanY][pacmanX + 1] != '3')
             {
-                --pacmanX;
-                map[pacmanY][pacmanX] = '9';   
+                pacmanX += CELL_SIZE*DeltaTime;
+                map[pacmanY][pacmanX] = '9';
             }
             break;
         case Pacman.FIRST_NORTH:
-            if (pacmanY > 0 && map[pacmanY - 1][pacmanX] != '#' && map[pacmanY - 1][pacmanX] != '='  && map[pacmanY - 1][pacmanX] != '0'  && map[pacmanY - 1][pacmanX] != '1' && map[pacmanY - 1][pacmanX] != '2' && map[pacmanY - 1][pacmanX] != '3')
-            {
-                --pacmanY;
-                map[pacmanY][pacmanX] = '9';
-            }
-            break;
         case Pacman.SECOND_NORTH:
-            if (pacmanY > 0 && map[pacmanY - 1][pacmanX] != '#' && map[pacmanY - 1][pacmanX] != '='  && map[pacmanY - 1][pacmanX] != '0'  && map[pacmanY - 1][pacmanX] != '1' && map[pacmanY - 1][pacmanX] != '2' && map[pacmanY - 1][pacmanX] != '3')
+            if (pacmanY > 0 && map[pacmanY - 1][pacmanX] != '#' && map[pacmanY - 1][pacmanX] != '=' && map[pacmanY - 1][pacmanX] != '0' && map[pacmanY - 1][pacmanX] != '1' && map[pacmanY - 1][pacmanX] != '2' && map[pacmanY - 1][pacmanX] != '3')
             {
-                --pacmanY;
+                pacmanY -= CELL_SIZE*DeltaTime;
                 map[pacmanY][pacmanX] = '9';
             }
             break;
         case Pacman.FIRST_WEST:
-            if (pacmanX < map[pacmanY].size() - 1 && map[pacmanY][pacmanX + 1] != '#' && map[pacmanY][pacmanX + 1] != '=' && map[pacmanY][pacmanX + 1] != '0' && map[pacmanY][pacmanX + 1] != '1' && map[pacmanY][pacmanX + 1] != '2' && map[pacmanY][pacmanX + 1] != '3')
-            {
-                ++pacmanX;
-                map[pacmanY][pacmanX] = '9';
-            }
-            break;
         case Pacman.SECOND_WEST:
-            if (pacmanX < map[pacmanY].size() - 1 && map[pacmanY][pacmanX + 1] != '#' && map[pacmanY][pacmanX + 1] != '=' && map[pacmanY][pacmanX + 1] != '0' && map[pacmanY][pacmanX + 1] != '1' && map[pacmanY][pacmanX + 1] != '2' && map[pacmanY][pacmanX + 1] != '3')
+            if (pacmanX > 0 && map[pacmanY][pacmanX - 1] != '#' && map[pacmanY][pacmanX - 1] != '=' && map[pacmanY][pacmanX - 1] != '0' && map[pacmanY][pacmanX - 1] != '1' && map[pacmanY][pacmanX - 1] != '2' && map[pacmanY][pacmanX - 1] != '3')
             {
-                ++pacmanX;
+                pacmanX -= CELL_SIZE*DeltaTime;
                 map[pacmanY][pacmanX] = '9';
             }
             break;
         default:
             break;
     }
-                
+
+    DrawMap(MainRenderer, map, Pacman, LoadMaps);
+    SDL_RenderPresent(MainRenderer);
+
+    switch (index)
+    {
+        case 0:
+            return 1;
+            break;
+        case 1:
+            return 0;
+            break;
+        default:
+            break;
+    }
 }
 
 
