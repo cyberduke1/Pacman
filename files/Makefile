@@ -1,5 +1,5 @@
 CC = g++
-Debug = -IInclude -Llib 
+Debug = -IInclude -Llib -g
 MAINFILELOCATION = src/main.cpp
 #TESTFILELOCATION = src/test.cpp
 #HEADERS := -Isource/sources/headerfile
