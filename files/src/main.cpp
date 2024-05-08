@@ -8,6 +8,7 @@ SDL_Event event;
 
 void Init();
 void DrawMap(SDL_Renderer *renderer, Map One,pacman Pacman,Window LoadMap);
+void Update(pacman Pacman,Window LoadMaps);
 
 int main(int argv,char *argc[]){
 
@@ -17,7 +18,7 @@ int main(int argv,char *argc[]){
     Window LoadMaps;
     bool quit = false;
     int CurrentStage = 1;
-    LoadMaps.Stages(CurrentStage);
+    Map UpdatedState = LoadMaps.Stages(CurrentStage);
     DrawMap(MainRenderer,LoadMaps.Stages(CurrentStage),Pacman,LoadMaps);
     SDL_RenderPresent(MainRenderer);
     while(!quit){
@@ -117,6 +118,75 @@ void DrawMap(SDL_Renderer *renderer, Map One,pacman Pacman,Window LoadMap)
     }
     
 }
+
+void Update(pacman Pacman,Map map)
+{
+    SDL_Texture* PacmanTextures = nullptr;
+    int pacmanY = Pacman.getPacmanPos(map).second;
+    int pacmanX = Pacman.getPacmanPos(map).first;
+    switch (Pacman.Direction)
+    {
+        case Pacman.FIRST_SOUTH:
+            if (pacmanY > 0 && map[pacmanY + 1][pacmanX] != '#' && map[pacmanY + 1][pacmanX] != '='  && map[pacmanY + 1][pacmanX] != '0'  && map[pacmanY + 1][pacmanX] != '1' && map[pacmanY + 1][pacmanX] != '2' && map[pacmanY + 1][pacmanX] != '3'){
+                pacmanY++;
+                map[pacmanY][pacmanX] = '9';
+            }
+            break;
+        case Pacman.SECOND_SOUTH:
+            if (pacmanY > 0 && map[pacmanY + 1][pacmanX] != '#' && map[pacmanY + 1][pacmanX] != '='  && map[pacmanY + 1][pacmanX] != '0'  && map[pacmanY + 1][pacmanX] != '1' && map[pacmanY + 1][pacmanX] != '2' && map[pacmanY + 1][pacmanX] != '3'){
+                pacmanY++;
+                map[pacmanY][pacmanX] = '9';
+            }
+            break;
+        case Pacman.FIRST_EAST:
+            if (pacmanX > 0 && map[pacmanY][pacmanX - 1] != '#' && map[pacmanY][pacmanX - 1] != '=' &&map[pacmanY][pacmanX - 1] != '0' && map[pacmanY][pacmanX - 1] != '1' && map[pacmanY][pacmanX - 1] != '2' && map[pacmanY][pacmanX - 1] != '3')
+            {
+                --pacmanX;
+                map[pacmanY][pacmanX] = '9';
+                
+            }
+            break;
+        case Pacman.SECOND_EAST:
+            if (pacmanX > 0 && map[pacmanY][pacmanX - 1] != '#' && map[pacmanY][pacmanX - 1] != '=' &&map[pacmanY][pacmanX - 1] != '0' && map[pacmanY][pacmanX - 1] != '1' && map[pacmanY][pacmanX - 1] != '2' && map[pacmanY][pacmanX - 1] != '3')
+            {
+                --pacmanX;
+                map[pacmanY][pacmanX] = '9';   
+            }
+            break;
+        case Pacman.FIRST_NORTH:
+            if (pacmanY > 0 && map[pacmanY - 1][pacmanX] != '#' && map[pacmanY - 1][pacmanX] != '='  && map[pacmanY - 1][pacmanX] != '0'  && map[pacmanY - 1][pacmanX] != '1' && map[pacmanY - 1][pacmanX] != '2' && map[pacmanY - 1][pacmanX] != '3')
+            {
+                --pacmanY;
+                map[pacmanY][pacmanX] = '9';
+            }
+            break;
+        case Pacman.SECOND_NORTH:
+            if (pacmanY > 0 && map[pacmanY - 1][pacmanX] != '#' && map[pacmanY - 1][pacmanX] != '='  && map[pacmanY - 1][pacmanX] != '0'  && map[pacmanY - 1][pacmanX] != '1' && map[pacmanY - 1][pacmanX] != '2' && map[pacmanY - 1][pacmanX] != '3')
+            {
+                --pacmanY;
+                map[pacmanY][pacmanX] = '9';
+            }
+            break;
+        case Pacman.FIRST_WEST:
+            if (pacmanX < map[pacmanY].size() - 1 && map[pacmanY][pacmanX + 1] != '#' && map[pacmanY][pacmanX + 1] != '=' && map[pacmanY][pacmanX + 1] != '0' && map[pacmanY][pacmanX + 1] != '1' && map[pacmanY][pacmanX + 1] != '2' && map[pacmanY][pacmanX + 1] != '3')
+            {
+                ++pacmanX;
+                map[pacmanY][pacmanX] = '9';
+            }
+            break;
+        case Pacman.SECOND_WEST:
+            if (pacmanX < map[pacmanY].size() - 1 && map[pacmanY][pacmanX + 1] != '#' && map[pacmanY][pacmanX + 1] != '=' && map[pacmanY][pacmanX + 1] != '0' && map[pacmanY][pacmanX + 1] != '1' && map[pacmanY][pacmanX + 1] != '2' && map[pacmanY][pacmanX + 1] != '3')
+            {
+                ++pacmanX;
+                map[pacmanY][pacmanX] = '9';
+            }
+            break;
+        default:
+            break;
+    }
+                
+}
+
 
 /*case '0':
                 

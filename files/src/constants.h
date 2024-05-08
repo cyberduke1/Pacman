@@ -11,12 +11,15 @@
 #include <SDL2/SDL_render.h> 
 #include <queue>
 
-
+//constants
 #define CELL_SIZE 20
 #define LIMIT 21
 #define NUM_SPRITES_PER_IMAGE 8
+#define FPS 30
+#define TARGETFPS 1000/FPS
 const int WINDOW_WIDTH = 960;
 const int WINDOW_HEIGHT = 960;
+
 
 
 #endif //CONSTANTS_H
