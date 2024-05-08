@@ -29,8 +29,8 @@ int main(int argv,char *argc[]){
                 quit = true;
                 break;
             }
-            DefaultLoadedSprite = Update(Pacman,UpdatedState,LoadMaps,DefaultLoadedSprite);
         }
+        DefaultLoadedSprite = Update(Pacman,UpdatedState,LoadMaps,DefaultLoadedSprite);
     }
 
     return 0;
@@ -135,6 +135,11 @@ int Update(pacman &Pacman, Map &map, Window LoadMaps, int index)
     switch (Pacman.Direction)
     {
         case Pacman.FIRST_SOUTH:
+        if (pacmanY < map.size() - 1 && map[pacmanY + 1][pacmanX] != '#' && map[pacmanY + 1][pacmanX] != '=' && map[pacmanY + 1][pacmanX] != '0' && map[pacmanY + 1][pacmanX] != '1' && map[pacmanY + 1][pacmanX] != '2' && map[pacmanY + 1][pacmanX] != '3'){
+                pacmanY += CELL_SIZE*DeltaTime;
+                map[pacmanY][pacmanX] = '9';
+            }
+            break;
         case Pacman.SECOND_SOUTH:
             if (pacmanY < map.size() - 1 && map[pacmanY + 1][pacmanX] != '#' && map[pacmanY + 1][pacmanX] != '=' && map[pacmanY + 1][pacmanX] != '0' && map[pacmanY + 1][pacmanX] != '1' && map[pacmanY + 1][pacmanX] != '2' && map[pacmanY + 1][pacmanX] != '3'){
                 pacmanY += CELL_SIZE*DeltaTime;
@@ -142,6 +147,12 @@ int Update(pacman &Pacman, Map &map, Window LoadMaps, int index)
             }
             break;
         case Pacman.FIRST_EAST:
+        if (pacmanX < map[pacmanY].size() - 1 && map[pacmanY][pacmanX + 1] != '#' && map[pacmanY][pacmanX + 1] != '=' && map[pacmanY][pacmanX + 1] != '0' && map[pacmanY][pacmanX + 1] != '1' && map[pacmanY][pacmanX + 1] != '2' && map[pacmanY][pacmanX + 1] != '3')
+            {
+                pacmanX += CELL_SIZE*DeltaTime;
+                map[pacmanY][pacmanX] = '9';
+            }
+            break;
         case Pacman.SECOND_EAST:
             if (pacmanX < map[pacmanY].size() - 1 && map[pacmanY][pacmanX + 1] != '#' && map[pacmanY][pacmanX + 1] != '=' && map[pacmanY][pacmanX + 1] != '0' && map[pacmanY][pacmanX + 1] != '1' && map[pacmanY][pacmanX + 1] != '2' && map[pacmanY][pacmanX + 1] != '3')
             {
@@ -150,6 +161,12 @@ int Update(pacman &Pacman, Map &map, Window LoadMaps, int index)
             }
             break;
         case Pacman.FIRST_NORTH:
+        if (pacmanY > 0 && map[pacmanY - 1][pacmanX] != '#' && map[pacmanY - 1][pacmanX] != '=' && map[pacmanY - 1][pacmanX] != '0' && map[pacmanY - 1][pacmanX] != '1' && map[pacmanY - 1][pacmanX] != '2' && map[pacmanY - 1][pacmanX] != '3')
+            {
+                pacmanY -= CELL_SIZE*DeltaTime;
+                map[pacmanY][pacmanX] = '9';
+            }
+            break;
         case Pacman.SECOND_NORTH:
             if (pacmanY > 0 && map[pacmanY - 1][pacmanX] != '#' && map[pacmanY - 1][pacmanX] != '=' && map[pacmanY - 1][pacmanX] != '0' && map[pacmanY - 1][pacmanX] != '1' && map[pacmanY - 1][pacmanX] != '2' && map[pacmanY - 1][pacmanX] != '3')
             {
@@ -158,6 +175,12 @@ int Update(pacman &Pacman, Map &map, Window LoadMaps, int index)
             }
             break;
         case Pacman.FIRST_WEST:
+        if (pacmanX > 0 && map[pacmanY][pacmanX - 1] != '#' && map[pacmanY][pacmanX - 1] != '=' && map[pacmanY][pacmanX - 1] != '0' && map[pacmanY][pacmanX - 1] != '1' && map[pacmanY][pacmanX - 1] != '2' && map[pacmanY][pacmanX - 1] != '3')
+            {
+                pacmanX -= CELL_SIZE*DeltaTime;
+                map[pacmanY][pacmanX] = '9';
+            }
+            break;
         case Pacman.SECOND_WEST:
             if (pacmanX > 0 && map[pacmanY][pacmanX - 1] != '#' && map[pacmanY][pacmanX - 1] != '=' && map[pacmanY][pacmanX - 1] != '0' && map[pacmanY][pacmanX - 1] != '1' && map[pacmanY][pacmanX - 1] != '2' && map[pacmanY][pacmanX - 1] != '3')
             {
