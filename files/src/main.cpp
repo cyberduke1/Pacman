@@ -16,6 +16,15 @@ void PrintMap(Map &One){
         std::cout<<"\n";
     }
 }
+void delay(int CurrentState){
+    Uint32 previousFrameTime = SDL_GetTicks();
+    int delays = 20*CurrentState;
+    Uint32 elapsedTime = SDL_GetTicks() - previousFrameTime;
+    if (elapsedTime < 1000 / 30) {
+        SDL_Delay(1000 / delays - elapsedTime);
+    }
+    previousFrameTime = SDL_GetTicks();
+}
 
 int main(int argc, char *argv[]) {
     Init();
@@ -24,13 +33,14 @@ int main(int argc, char *argv[]) {
     Window LoadMaps;
     bool quit = false;
     int CurrentStage = 1;
-    int nextSprite = 0;
+    int CurrentState = 1;
+    int nextSprite = 1;
     Map UpdatedState = LoadMaps.Stages(CurrentStage);
     
     DrawMap(MainRenderer, UpdatedState, Pacman, LoadMaps,nextSprite);
     SDL_RenderPresent(MainRenderer);
 
-    Uint32 previousFrameTime = SDL_GetTicks();
+    
     while (!quit) {
         while (SDL_PollEvent(&event) != 0) {
             if (event.type == SDL_QUIT) {
@@ -41,13 +51,10 @@ int main(int argc, char *argv[]) {
         nextSprite = HandlePacmanMovement(Pacman, UpdatedState,nextSprite);
 
         
-        Uint32 elapsedTime = SDL_GetTicks() - previousFrameTime;
-        if (elapsedTime < 1000 / 30) {
-            SDL_Delay(1000 / 20 - elapsedTime);
-        }
-        previousFrameTime = SDL_GetTicks();
-
+        delay(CurrentState);
+        SDL_RenderClear(MainRenderer);
         DrawMap(MainRenderer, UpdatedState, Pacman, LoadMaps , nextSprite);
+        SDL_SetRenderDrawColor(MainRenderer, 0, 0, 0, 255);
         SDL_RenderPresent(MainRenderer);
         //PrintMap(UpdatedState);
     }
@@ -88,6 +95,7 @@ void DrawMap(SDL_Renderer *renderer, Map One, pacman Pacman, Window LoadMap,int 
                     break;
                 case 'o':
                     SDL_SetRenderDrawColor(renderer, 255, 0, 255, 255);
+                    Wall.x += 1;
                     SDL_RenderDrawPoint(renderer, Wall.x + CELL_SIZE / 2, Wall.y + CELL_SIZE / 2);
                     LoadMap.DrawCircle(renderer, Wall.x + CELL_SIZE / 2, Wall.y + CELL_SIZE / 2, CELL_SIZE / 6);
                     break;

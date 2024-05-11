@@ -4,7 +4,7 @@
 
 pacman::pacman(SDL_Renderer *renderer)
 {
-    Direction = FIRST_EAST;
+    Direction = SECOND_EAST;
     SpriteCord.push_back({0,0});//East 1
     SpriteCord.push_back({0,1});//East 2
     SpriteCord.push_back({1,0});//West 1
@@ -45,10 +45,7 @@ SDL_Texture *pacman::LoadSprites(SDL_Renderer *renderer, int rowIndex, int colIn
         int spriteHeight = (loadedSurface->h / numRows);
 
         
-        if (colIndex == 0) {
-            spriteWidth -= 2;
-        }
-
+        
         SDL_Rect spriteRect = {
             colIndex * (spriteWidth),
             rowIndex * (spriteHeight),
@@ -68,6 +65,7 @@ SDL_Texture *pacman::LoadSprites(SDL_Renderer *renderer, int rowIndex, int colIn
             if (texture == nullptr)
             {
                 std::cout << "Unable to create texture from pacman surface! SDL Error: " << SDL_GetError() << std::endl;
+                return texture;
             }
 
             SDL_FreeSurface(spriteSurface);
