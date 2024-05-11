@@ -42,15 +42,20 @@ SDL_Texture *pacman::LoadSprites(SDL_Renderer *renderer, int rowIndex, int colIn
     else
     {
         int spriteWidth = (loadedSurface->w / numCols);
-        int spriteHeight = loadedSurface->h / numRows;
+        int spriteHeight = (loadedSurface->h / numRows);
+
+        
+        if (colIndex == 0) {
+            spriteWidth -= 2;
+        }
 
         SDL_Rect spriteRect = {
-            colIndex * (spriteWidth-4),
-            rowIndex * spriteHeight,
+            colIndex * (spriteWidth),
+            rowIndex * (spriteHeight),
             spriteWidth,
             spriteHeight};
 
-        SDL_Surface *spriteSurface = SDL_CreateRGBSurfaceWithFormat(0, spriteWidth-4, spriteHeight, 32, SDL_PIXELFORMAT_RGBA32);
+        SDL_Surface *spriteSurface = SDL_CreateRGBSurfaceWithFormat(0, spriteWidth, spriteHeight, 32, SDL_PIXELFORMAT_RGBA32);
         if (spriteSurface == nullptr)
         {
             std::cout << "Unable to create surface for sprite from pacman image " << Location << "! SDL Error: " << SDL_GetError() << std::endl;
@@ -72,6 +77,7 @@ SDL_Texture *pacman::LoadSprites(SDL_Renderer *renderer, int rowIndex, int colIn
     }
     return texture;
 }
+
 
 pacman::~pacman()
 {
