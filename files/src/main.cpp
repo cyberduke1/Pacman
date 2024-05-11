@@ -16,6 +16,42 @@ void PrintMap(Map &One){
         std::cout<<"\n";
     }
 }
+
+bool CheckWall(Map UpdatedState,pacman Pacman){
+    int pacmanY = Pacman.getPacmanPos(UpdatedState).first;
+    int pacmanX = Pacman.getPacmanPos(UpdatedState).second;
+
+     switch (Pacman.Direction) {
+        case Pacman.FIRST_SOUTH:
+        case Pacman.SECOND_SOUTH:
+            if (pacmanY < UpdatedState.size() - 1 && UpdatedState[pacmanY + 1][pacmanX] != '#') {
+                return true;
+            }
+            break;
+        case Pacman.FIRST_EAST:
+        case Pacman.SECOND_EAST:
+            if (pacmanX < UpdatedState[pacmanY].size() - 1 && UpdatedState[pacmanY][pacmanX + 1] != '#') {
+                return true;
+            }
+            break;
+        case Pacman.FIRST_NORTH:
+        case Pacman.SECOND_NORTH:
+            if (pacmanY > 0 && UpdatedState[pacmanY - 1][pacmanX] != '#') {
+                return true;
+            }
+            break;
+        case Pacman.FIRST_WEST:
+        case Pacman.SECOND_WEST:
+            if (pacmanX > 0 && UpdatedState[pacmanY][pacmanX - 1] != '#') {
+                return true;
+            }
+            break;
+        default:
+            break;
+    }
+    return false;
+}
+
 void delay(int CurrentState){
     Uint32 previousFrameTime = SDL_GetTicks();
     int delays = 20*CurrentState;
@@ -48,7 +84,8 @@ int main(int argc, char *argv[]) {
                 break;
             }
         }
-        nextSprite = HandlePacmanMovement(Pacman, UpdatedState,nextSprite);
+        if(CheckWall(UpdatedState,Pacman))
+            nextSprite = HandlePacmanMovement(Pacman, UpdatedState,nextSprite);
 
         
         delay(CurrentState);
