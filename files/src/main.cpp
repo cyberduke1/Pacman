@@ -54,7 +54,7 @@ bool CheckWall(Map UpdatedState,pacman Pacman){
 
 void delay(int CurrentState){
     Uint32 previousFrameTime = SDL_GetTicks();
-    int delays = 20*CurrentState;
+    int delays = 15*CurrentState;
     Uint32 elapsedTime = SDL_GetTicks() - previousFrameTime;
     if (elapsedTime < 1000 / 30) {
         SDL_Delay(1000 / delays - elapsedTime);
@@ -72,6 +72,9 @@ int main(int argc, char *argv[]) {
     int CurrentState = 1;
     int nextSprite = 1;
     Map UpdatedState = LoadMaps.Stages(CurrentStage);
+    int pacmanY = -1;
+    int pacmanX = -1;
+    
     
     DrawMap(MainRenderer, UpdatedState, Pacman, LoadMaps,nextSprite);
     SDL_RenderPresent(MainRenderer);
@@ -82,6 +85,41 @@ int main(int argc, char *argv[]) {
             if (event.type == SDL_QUIT) {
                 quit = true;
                 break;
+            }else if(event.type == SDL_KEYDOWN){
+                switch (event.key.keysym.sym)
+                {
+                pacmanY = Pacman.getPacmanPos(UpdatedState).first;
+                pacmanX = Pacman.getPacmanPos(UpdatedState).second;
+
+                case SDLK_UP:
+                    if (pacmanY > 0 && UpdatedState[pacmanY - 1][pacmanX] != '#' && UpdatedState[pacmanY - 1][pacmanX] != '='  && UpdatedState[pacmanY - 1][pacmanX] != '0'  && UpdatedState[pacmanY - 1][pacmanX] != '1' && UpdatedState[pacmanY - 1][pacmanX] != '2' && UpdatedState[pacmanY - 1][pacmanX] != '3')
+                    {
+                        UpdatedState[pacmanY][pacmanX] = ' ';
+                        --pacmanY;
+                    }
+                    break;
+                case SDLK_DOWN:
+                    if (pacmanY < UpdatedState.size() - 1 && UpdatedState[pacmanY + 1][pacmanX] != '#' && UpdatedState[pacmanY + 1][pacmanX] != '=' && UpdatedState[pacmanY + 1][pacmanX] != '0'  && UpdatedState[pacmanY + 1][pacmanX] != '1' && UpdatedState[pacmanY + 1][pacmanX] != '2'  && UpdatedState[pacmanY + 1][pacmanX] != '3')
+                    {
+                        UpdatedState[pacmanY][pacmanX] = ' ';
+                        ++pacmanY;
+                    }
+                    break;
+                case SDLK_LEFT:
+                    if (pacmanX > 0 && UpdatedState[pacmanY][pacmanX - 1] != '#' && UpdatedState[pacmanY][pacmanX - 1] != '=' &&UpdatedState[pacmanY][pacmanX - 1] != '0' && UpdatedState[pacmanY][pacmanX - 1] != '1' && UpdatedState[pacmanY][pacmanX - 1] != '2' && UpdatedState[pacmanY][pacmanX - 1] != '3')
+                    {
+                        UpdatedState[pacmanY][pacmanX] = ' ';
+                        --pacmanX;
+                    }
+                    break;
+                case SDLK_RIGHT:
+                    if (pacmanX < UpdatedState[pacmanY].size() - 1 && UpdatedState[pacmanY][pacmanX + 1] != '#' && UpdatedState[pacmanY][pacmanX + 1] != '=' && UpdatedState[pacmanY][pacmanX + 1] != '0' && UpdatedState[pacmanY][pacmanX + 1] != '1' && UpdatedState[pacmanY][pacmanX + 1] != '2' && UpdatedState[pacmanY][pacmanX + 1] != '3')
+                    {
+                        UpdatedState[pacmanY][pacmanX] = ' ';
+                        ++pacmanX;
+                    }
+                    break;
+            }
             }
         }
         if(CheckWall(UpdatedState,Pacman))
