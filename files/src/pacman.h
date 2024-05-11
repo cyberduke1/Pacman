@@ -11,8 +11,8 @@ public:
     pacman(SDL_Renderer *renderer);
     std::pair<int,int> getPacmanPos(std::vector<std::string> map);
     enum DIRECTION{
-            FIRST_WEST, SECOND_WEST,
             FIRST_EAST, SECOND_EAST,
+            FIRST_WEST, SECOND_WEST,
             FIRST_NORTH, SECOND_NORTH,
             FIRST_SOUTH, SECOND_SOUTH, 
     };

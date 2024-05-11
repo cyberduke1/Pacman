@@ -4,11 +4,11 @@
 
 pacman::pacman(SDL_Renderer *renderer)
 {
-    Direction = FIRST_WEST;
-    SpriteCord.push_back({0,0});//West 1
-    SpriteCord.push_back({0,1});//West 2
-    SpriteCord.push_back({1,0});//East 1
-    SpriteCord.push_back({1,1});//East 2
+    Direction = FIRST_EAST;
+    SpriteCord.push_back({0,0});//East 1
+    SpriteCord.push_back({0,1});//East 2
+    SpriteCord.push_back({1,0});//West 1
+    SpriteCord.push_back({1,1});//West 2
     SpriteCord.push_back({2,0});//Up 1
     SpriteCord.push_back({2,1});//up 2
     SpriteCord.push_back({3,0});//Down 1
@@ -41,16 +41,16 @@ SDL_Texture *pacman::LoadSprites(SDL_Renderer *renderer, int rowIndex, int colIn
     }
     else
     {
-        int spriteWidth = loadedSurface->w / numCols;
+        int spriteWidth = (loadedSurface->w / numCols);
         int spriteHeight = loadedSurface->h / numRows;
 
         SDL_Rect spriteRect = {
-            colIndex * spriteWidth,
+            colIndex * (spriteWidth-4),
             rowIndex * spriteHeight,
             spriteWidth,
             spriteHeight};
 
-        SDL_Surface *spriteSurface = SDL_CreateRGBSurfaceWithFormat(0, spriteWidth, spriteHeight, 32, SDL_PIXELFORMAT_RGBA32);
+        SDL_Surface *spriteSurface = SDL_CreateRGBSurfaceWithFormat(0, spriteWidth-4, spriteHeight, 32, SDL_PIXELFORMAT_RGBA32);
         if (spriteSurface == nullptr)
         {
             std::cout << "Unable to create surface for sprite from pacman image " << Location << "! SDL Error: " << SDL_GetError() << std::endl;
