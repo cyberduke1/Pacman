@@ -17,7 +17,7 @@ public:
             FIRST_SOUTH, SECOND_SOUTH, 
     };
     int Direction;
-    SDL_Texture* LoadSprites(SDL_Renderer *renderer, int rowIndex, int colIndex, int numRows, int numCols);
+    SDL_Texture* LoadSprites(SDL_Renderer *renderer, int rowIndex, int colIndex, int numRows, int numCols) const;
     std::vector<std::pair<int,int>> SpriteCord;
     ~pacman();
 };

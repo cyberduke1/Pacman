@@ -29,7 +29,7 @@ std::pair<int, int> pacman::getPacmanPos(std::vector<std::string> map)
     }
 }
 
-SDL_Texture *pacman::LoadSprites(SDL_Renderer *renderer, int rowIndex, int colIndex, int numRows, int numCols)
+SDL_Texture *pacman::LoadSprites(SDL_Renderer *renderer, int rowIndex, int colIndex, int numRows, int numCols) const
 {
     SDL_Texture *texture = nullptr;
 
