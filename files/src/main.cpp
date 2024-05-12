@@ -54,7 +54,6 @@ bool CheckWall(Map UpdatedState,pacman Pacman){
 
 void delay(){
     Uint32 elapsedTime = SDL_GetTicks() - PreviousFrameTime;
-    
     while(!SDL_TICKS_PASSED(SDL_GetTicks(), TARGETFPS+PreviousFrameTime));
     PreviousFrameTime = SDL_GetTicks();
 }
@@ -68,6 +67,7 @@ int main(int argc, char* argv[]) {
     int nextSprite = 1;
     int CurrentStage = 1;
     int CurrentState = 1;
+    float DeltaTime = 0;
     Map UpdatedState = LoadMaps.Stages(CurrentStage);
 
     DrawMap(MainRenderer, UpdatedState, Pacman, LoadMaps, nextSprite);
@@ -77,8 +77,7 @@ int main(int argc, char* argv[]) {
         while (SDL_PollEvent(&event) != 0) {
 
             while(!SDL_TICKS_PASSED(SDL_GetTicks(),PreviousFrameTime+FRAME_DELAY));
-
-            
+            DeltaTime = (SDL_GetTicks() - PreviousFrameTime)/1000;
             if (event.type == SDL_QUIT) {
                 quit = true;
                 break;
@@ -90,7 +89,7 @@ int main(int argc, char* argv[]) {
                     case SDLK_UP:
                         if (pacmanY > 0 && UpdatedState[pacmanY - 1][pacmanX] != '#' && UpdatedState[pacmanY - 1][pacmanX] != '=' && UpdatedState[pacmanY - 1][pacmanX] != '0' && UpdatedState[pacmanY - 1][pacmanX] != '1' && UpdatedState[pacmanY - 1][pacmanX] != '2' && UpdatedState[pacmanY - 1][pacmanX] != '3') {
                             UpdatedState[pacmanY][pacmanX] = ' ';
-                            pacmanY -= 30 * DeltaTime;
+                            pacmanY;
                             UpdatedState[pacmanY][pacmanX] = '9';
                         }
                         Pacman.Direction = Pacman.FIRST_NORTH;
@@ -98,7 +97,7 @@ int main(int argc, char* argv[]) {
                     case SDLK_DOWN:
                         if (pacmanY < UpdatedState.size() - 1 && UpdatedState[pacmanY + 1][pacmanX] != '#' && UpdatedState[pacmanY + 1][pacmanX] != '=' && UpdatedState[pacmanY + 1][pacmanX] != '0' && UpdatedState[pacmanY + 1][pacmanX] != '1' && UpdatedState[pacmanY + 1][pacmanX] != '2' && UpdatedState[pacmanY + 1][pacmanX] != '3') {
                             UpdatedState[pacmanY][pacmanX] = ' ';
-                            pacmanY += 30 * DeltaTime;
+                            ++pacmanY;
                             UpdatedState[pacmanY][pacmanX] = '9';
                         }
                         Pacman.Direction = Pacman.FIRST_SOUTH;
@@ -106,7 +105,7 @@ int main(int argc, char* argv[]) {
                     case SDLK_LEFT:
                         if (pacmanX > 0 && UpdatedState[pacmanY][pacmanX - 1] != '#' && UpdatedState[pacmanY][pacmanX - 1] != '=' && UpdatedState[pacmanY][pacmanX - 1] != '0' && UpdatedState[pacmanY][pacmanX - 1] != '1' && UpdatedState[pacmanY][pacmanX - 1] != '2' && UpdatedState[pacmanY][pacmanX - 1] != '3') {
                             UpdatedState[pacmanY][pacmanX] = ' ';
-                            pacmanX -= 30 * DeltaTime;
+                            --pacmanX;
                             UpdatedState[pacmanY][pacmanX] = '9';
                         }
                         Pacman.Direction = Pacman.FIRST_WEST;
@@ -114,13 +113,14 @@ int main(int argc, char* argv[]) {
                     case SDLK_RIGHT:
                         if (pacmanX < UpdatedState[pacmanY].size() - 1 && UpdatedState[pacmanY][pacmanX + 1] != '#' && UpdatedState[pacmanY][pacmanX + 1] != '=' && UpdatedState[pacmanY][pacmanX + 1] != '0' && UpdatedState[pacmanY][pacmanX + 1] != '1' && UpdatedState[pacmanY][pacmanX + 1] != '2' && UpdatedState[pacmanY][pacmanX + 1] != '3') {
                             UpdatedState[pacmanY][pacmanX] = ' ';
-                            pacmanX += 30 * DeltaTime;
+                            ++pacmanX;
                             UpdatedState[pacmanY][pacmanX] = '9';
                         }
                         Pacman.Direction = Pacman.FIRST_EAST;
                         break;
                 }
             }
+            delay();
             Uint32 CurrentTime = SDL_GetTicks();
             DeltaTime = (CurrentTime - PreviousFrameTime) / 1000.0f; 
             PreviousFrameTime = CurrentTime;
@@ -161,17 +161,18 @@ void DrawMap(SDL_Renderer *renderer, Map One, pacman Pacman, Window LoadMap,int 
                     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
                     SDL_RenderDrawPoint(renderer, Wall.x + CELL_SIZE / 2, Wall.y + CELL_SIZE / 2);
                     break;
-                case '9':
-
-                    PacmanTextures = Pacman.LoadSprites(renderer, Pacman.SpriteCord[Pacman.Direction].first, SpriteNum, 4, 2);
-                    if (PacmanTextures != nullptr) {
-                        SDL_RenderCopy(renderer, PacmanTextures, nullptr, &Wall);
-                        SDL_DestroyTexture(PacmanTextures);
-                    }
+                pixelX = (x + 13) * CELL_SIZE + 30 * DeltaTime; // Update pixelX based on DeltaTime
+        pixelY = (y + 13) * CELL_SIZE + 30 * DeltaTime; // Update pixelY based on DeltaTime
+        PacmanTextures = Pacman.LoadSprites(renderer, Pacman.SpriteCord[Pacman.Direction].first, SpriteNum, 4, 2, pixelX, pixelY);
+        if (PacmanTextures != nullptr) {
+            // No need to update pixelX and pixelY here again
+            SDL_Rect PacmanRect = {pixelX, pixelY, CELL_SIZE, CELL_SIZE}; // Use pixelX and pixelY for rendering Pacman
+            SDL_RenderCopy(renderer, PacmanTextures, nullptr, &PacmanRect);
+            SDL_DestroyTexture(PacmanTextures);
+        }
                     break;
                 case 'o':
                     SDL_SetRenderDrawColor(renderer, 255, 0, 255, 255);
-                    Wall.x += 1;
                     SDL_RenderDrawPoint(renderer, Wall.x + CELL_SIZE / 2, Wall.y + CELL_SIZE / 2);
                     LoadMap.DrawCircle(renderer, Wall.x + CELL_SIZE / 2, Wall.y + CELL_SIZE / 2, CELL_SIZE / 6);
                     break;
@@ -187,48 +188,47 @@ void DrawMap(SDL_Renderer *renderer, Map One, pacman Pacman, Window LoadMap,int 
 }
 
 int HandlePacmanMovement(pacman& Pacman, Map& UpdatedState, int Index) {
-
-    DeltaTime = (SDL_GetTicks() - PreviousFrameTime)/1000;
+    
     int pacmanY = Pacman.getPacmanPos(UpdatedState).first;
     int pacmanX = Pacman.getPacmanPos(UpdatedState).second;
+
+    DeltaTime = (SDL_GetTicks() - PreviousFrameTime) / 1000.0f;
 
     switch (Pacman.Direction) {
         case Pacman.FIRST_SOUTH:
         case Pacman.SECOND_SOUTH:
             if (pacmanY < UpdatedState.size() - 1 && UpdatedState[pacmanY + 1][pacmanX] != '#') {
                 UpdatedState[pacmanY][pacmanX] = ' ';
-                pacmanY += 30 * DeltaTime ;
-                UpdatedState[pacmanY][pacmanX] = '9';
+                pacmanY++;
             }
             break;
         case Pacman.FIRST_EAST:
         case Pacman.SECOND_EAST:
             if (pacmanX < UpdatedState[pacmanY].size() - 1 && UpdatedState[pacmanY][pacmanX + 1] != '#') {
                 UpdatedState[pacmanY][pacmanX] = ' ';
-                pacmanX += 30 * DeltaTime;
-                UpdatedState[pacmanY][pacmanX] = '9';
+                pacmanX++;
             }
             break;
         case Pacman.FIRST_NORTH:
         case Pacman.SECOND_NORTH:
             if (pacmanY > 0 && UpdatedState[pacmanY - 1][pacmanX] != '#') {
                 UpdatedState[pacmanY][pacmanX] = ' ';
-                pacmanY -= 30 * DeltaTime;
-                UpdatedState[pacmanY][pacmanX] = '9';
+                pacmanY--;
             }
             break;
         case Pacman.FIRST_WEST:
         case Pacman.SECOND_WEST:
             if (pacmanX > 0 && UpdatedState[pacmanY][pacmanX - 1] != '#') {
                 UpdatedState[pacmanY][pacmanX] = ' ';
-                pacmanX -= 30 * DeltaTime;
-                UpdatedState[pacmanY][pacmanX] = '9';
+                pacmanX--;
             }
             break;
         default:
             break;
     }
 
+
+    UpdatedState[pacmanY][pacmanX] = '9';
     if(Index == 0)
         return 1;
 

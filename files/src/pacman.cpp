@@ -29,7 +29,7 @@ std::pair<int, int> pacman::getPacmanPos(std::vector<std::string> map)
     }
 }
 
-SDL_Texture *pacman::LoadSprites(SDL_Renderer *renderer, int rowIndex, int colIndex, int numRows, int numCols) const
+SDL_Texture *pacman::LoadSprites(SDL_Renderer *renderer, int rowIndex, int colIndex, int numRows, int numCols , int x,int y) const
 {
     SDL_Texture *texture = nullptr;
 
@@ -43,12 +43,13 @@ SDL_Texture *pacman::LoadSprites(SDL_Renderer *renderer, int rowIndex, int colIn
     {
         int spriteWidth = (loadedSurface->w / numCols);
         int spriteHeight = (loadedSurface->h / numRows);
-
+        int pix = x*CELL_SIZE + 30*DeltaTime;
+        int piy = y*CELL_SIZE + 30*DeltaTime;
         
         
         SDL_Rect spriteRect = {
-            colIndex * (spriteWidth),
-            rowIndex * (spriteHeight),
+            pix,
+            piy,
             spriteWidth,
             spriteHeight};
 
