@@ -13,7 +13,7 @@
 #include <queue>
 
 //constants
-#define CELL_SIZE 20
+#define CELL_SIZE 30
 #define LIMIT 21
 #define NUM_SPRITES_PER_IMAGE 8
 #define FPS 10
