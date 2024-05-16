@@ -55,6 +55,10 @@ bool CheckWall(Map UpdatedState,pacman Pacman){
 void delay(){
     Uint32 elapsedTime = SDL_GetTicks() - PreviousFrameTime;
     while(!SDL_TICKS_PASSED(SDL_GetTicks(), TARGETFPS+PreviousFrameTime));
+    while(!SDL_TICKS_PASSED(SDL_GetTicks(), TARGETFPS+PreviousFrameTime));
+    while(!SDL_TICKS_PASSED(SDL_GetTicks(), TARGETFPS+PreviousFrameTime));
+    while(!SDL_TICKS_PASSED(SDL_GetTicks(), TARGETFPS+PreviousFrameTime));
+    while(!SDL_TICKS_PASSED(SDL_GetTicks(), TARGETFPS+PreviousFrameTime));
     PreviousFrameTime = SDL_GetTicks();
 }
 
@@ -121,6 +125,7 @@ int main(int argc, char* argv[]) {
                 }
             }
             delay();
+            delay();delay();
             Uint32 CurrentTime = SDL_GetTicks();
             DeltaTime = (CurrentTime - PreviousFrameTime) / 1000.0f; 
             PreviousFrameTime = CurrentTime;
@@ -171,12 +176,12 @@ void DrawMap(SDL_Renderer *renderer, Map One, pacman Pacman, Window LoadMap,int 
                     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
                     SDL_RenderDrawPoint(renderer, Wall.x + CELL_SIZE / 2, Wall.y + CELL_SIZE / 2);
                     break;
-                pixelX = (x + 7) * CELL_SIZE + 30 * DeltaTime; // Update pixelX based on DeltaTime
-        pixelY = (y + 7) * CELL_SIZE + 30 * DeltaTime; // Update pixelY based on DeltaTime
+                pixelX = (x + 7) * CELL_SIZE + 30 * DeltaTime;
+        pixelY = (y + 7) * CELL_SIZE + 30 * DeltaTime;
         PacmanTextures = Pacman.LoadSprites(renderer, Pacman.SpriteCord[Pacman.Direction].first, SpriteNum, 4, 2, pixelX, pixelY);
         if (PacmanTextures != nullptr) {
-            // No need to update pixelX and pixelY here again
-            SDL_Rect PacmanRect = {pixelX, pixelY, CELL_SIZE, CELL_SIZE}; // Use pixelX and pixelY for rendering Pacman
+            
+            SDL_Rect PacmanRect = {pixelX, pixelY, CELL_SIZE, CELL_SIZE};
             SDL_RenderCopy(renderer, PacmanTextures, nullptr, &PacmanRect);
             SDL_DestroyTexture(PacmanTextures);
         }
