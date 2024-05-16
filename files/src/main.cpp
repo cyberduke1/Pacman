@@ -142,6 +142,16 @@ void Init() {
     SDL_Init(SDL_INIT_EVERYTHING);
     GameWindow = SDL_CreateWindow("Pacman", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
     MainRenderer = SDL_CreateRenderer(GameWindow, -1, SDL_RENDERER_ACCELERATED);
+
+    std::string const name = "C:\\Users\\zulul\\Documents\\pacman\\pacman\\files\\resources\\sprites\\icon.png";
+    SDL_Surface* iconSurface = IMG_Load(name.c_str());
+    if (iconSurface == nullptr) {
+        printf("Failed to load window icon image! SDL_ERROR: %s\n", SDL_GetError());
+        return;
+    }
+    SDL_SetWindowIcon(GameWindow, iconSurface);
+    SDL_FreeSurface(iconSurface);
+
 }
 
 void DrawMap(SDL_Renderer *renderer, Map One, pacman Pacman, Window LoadMap,int SpriteNum) {
@@ -150,7 +160,7 @@ void DrawMap(SDL_Renderer *renderer, Map One, pacman Pacman, Window LoadMap,int 
 
     for (int y = 0; y < LIMIT; y++) {
         for (int x = 0; x < LIMIT; x++) {
-            Wall = {(x + 13) * CELL_SIZE, (y + 13) * CELL_SIZE, CELL_SIZE, CELL_SIZE};
+            Wall = {(x + 7) * CELL_SIZE, (y + 7) * CELL_SIZE, CELL_SIZE, CELL_SIZE};
 
             switch (One[y][x]) {
                 case '#':
@@ -161,8 +171,8 @@ void DrawMap(SDL_Renderer *renderer, Map One, pacman Pacman, Window LoadMap,int 
                     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
                     SDL_RenderDrawPoint(renderer, Wall.x + CELL_SIZE / 2, Wall.y + CELL_SIZE / 2);
                     break;
-                pixelX = (x + 13) * CELL_SIZE + 30 * DeltaTime; // Update pixelX based on DeltaTime
-        pixelY = (y + 13) * CELL_SIZE + 30 * DeltaTime; // Update pixelY based on DeltaTime
+                pixelX = (x + 7) * CELL_SIZE + 30 * DeltaTime; // Update pixelX based on DeltaTime
+        pixelY = (y + 7) * CELL_SIZE + 30 * DeltaTime; // Update pixelY based on DeltaTime
         PacmanTextures = Pacman.LoadSprites(renderer, Pacman.SpriteCord[Pacman.Direction].first, SpriteNum, 4, 2, pixelX, pixelY);
         if (PacmanTextures != nullptr) {
             // No need to update pixelX and pixelY here again
