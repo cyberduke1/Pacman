@@ -24,6 +24,7 @@ int PreviousFrameTime = 0;
 const int TARGET_FPS = 30;
 float DeltaTime = 0;
 const int FRAME_DELAY = 1000 / TARGET_FPS;
+const float PacmanSpeed = 100.0f;
 int pixelX;
 int pixelY;
 

@@ -7,7 +7,7 @@ SDL_Event event;
 
 void Init();
 void DrawMap(SDL_Renderer *renderer, Map One, pacman Pacman, Window LoadMap, int Spritenum);
-int HandlePacmanMovement(pacman& Pacman, Map& UpdatedState,int index);
+int HandlePacmanMovement(pacman& Pacman, Map& UpdatedState,int index,float DeltaTime);
 void PrintMap(Map &One){
     for(auto one : One){
         for(auto in : one){
@@ -81,7 +81,9 @@ int main(int argc, char* argv[]) {
         while (SDL_PollEvent(&event) != 0) {
 
             while(!SDL_TICKS_PASSED(SDL_GetTicks(),PreviousFrameTime+FRAME_DELAY));
+
             DeltaTime = (SDL_GetTicks() - PreviousFrameTime)/1000;
+
             if (event.type == SDL_QUIT) {
                 quit = true;
                 break;
@@ -93,7 +95,7 @@ int main(int argc, char* argv[]) {
                     case SDLK_UP:
                         if (pacmanY > 0 && UpdatedState[pacmanY - 1][pacmanX] != '#' && UpdatedState[pacmanY - 1][pacmanX] != '=' && UpdatedState[pacmanY - 1][pacmanX] != '0' && UpdatedState[pacmanY - 1][pacmanX] != '1' && UpdatedState[pacmanY - 1][pacmanX] != '2' && UpdatedState[pacmanY - 1][pacmanX] != '3') {
                             UpdatedState[pacmanY][pacmanX] = ' ';
-                            pacmanY;
+                            --pacmanY;
                             UpdatedState[pacmanY][pacmanX] = '9';
                         }
                         Pacman.Direction = Pacman.FIRST_NORTH;
@@ -122,6 +124,9 @@ int main(int argc, char* argv[]) {
                         }
                         Pacman.Direction = Pacman.FIRST_EAST;
                         break;
+                    default:
+                        nextSprite = HandlePacmanMovement(Pacman, UpdatedState, nextSprite, DeltaTime);
+                        break;
                 }
             }
             delay();
@@ -132,7 +137,7 @@ int main(int argc, char* argv[]) {
            
         }
             if (CheckWall(UpdatedState, Pacman))
-                nextSprite = HandlePacmanMovement(Pacman, UpdatedState, nextSprite);
+                nextSprite = HandlePacmanMovement(Pacman, UpdatedState, nextSprite, DeltaTime);
 
             SDL_RenderClear(MainRenderer);
             DrawMap(MainRenderer, UpdatedState, Pacman, LoadMaps, nextSprite);
@@ -243,53 +248,39 @@ void DrawMap(SDL_Renderer *renderer, Map One, pacman Pacman, Window LoadMap,int 
     }
 }
 
-int HandlePacmanMovement(pacman& Pacman, Map& UpdatedState, int Index) {
-    
+
+int HandlePacmanMovement(pacman& Pacman, Map& UpdatedState, int Index, float DeltaTime) {
     int pacmanY = Pacman.getPacmanPos(UpdatedState).first;
     int pacmanX = Pacman.getPacmanPos(UpdatedState).second;
 
-    DeltaTime = (SDL_GetTicks() - PreviousFrameTime) / 1000.0f;
-
+    // Update Pacman's position based on direction and delta time
     switch (Pacman.Direction) {
         case Pacman.FIRST_SOUTH:
         case Pacman.SECOND_SOUTH:
-            if (pacmanY < UpdatedState.size() - 1 && UpdatedState[pacmanY + 1][pacmanX] != '#') {
-                UpdatedState[pacmanY][pacmanX] = ' ';
-                pacmanY++;
-            }
+            pacmanY += static_cast<int>(PacmanSpeed * DeltaTime);
             break;
         case Pacman.FIRST_EAST:
         case Pacman.SECOND_EAST:
-            if (pacmanX < UpdatedState[pacmanY].size() - 1 && UpdatedState[pacmanY][pacmanX + 1] != '#') {
-                UpdatedState[pacmanY][pacmanX] = ' ';
-                pacmanX++;
-            }
+            pacmanX += static_cast<int>(PacmanSpeed * DeltaTime);
             break;
         case Pacman.FIRST_NORTH:
         case Pacman.SECOND_NORTH:
-            if (pacmanY > 0 && UpdatedState[pacmanY - 1][pacmanX] != '#') {
-                UpdatedState[pacmanY][pacmanX] = ' ';
-                pacmanY--;
-            }
+            pacmanY -= static_cast<int>(PacmanSpeed * DeltaTime);
             break;
         case Pacman.FIRST_WEST:
         case Pacman.SECOND_WEST:
-            if (pacmanX > 0 && UpdatedState[pacmanY][pacmanX - 1] != '#') {
-                UpdatedState[pacmanY][pacmanX] = ' ';
-                pacmanX--;
-            }
+            pacmanX -= static_cast<int>(PacmanSpeed * DeltaTime);
             break;
         default:
             break;
     }
 
-
+    // Update Pacman's position in the map
     UpdatedState[pacmanY][pacmanX] = '9';
-    if(Index == 0)
-        return 1;
 
     return 0;
 }
+
 
 /*case '0':
                 
