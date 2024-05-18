@@ -2,8 +2,6 @@
 #define WINDOW_H
 #include "constants.h"
 
-using Map = std::vector<std::string>;
-
 class Window
 {
 private:
