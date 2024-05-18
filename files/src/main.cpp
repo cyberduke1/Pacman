@@ -84,46 +84,7 @@ int main(int argc, char* argv[]) {
                 quit = true;
                 break;
             } else if (event.type == SDL_KEYDOWN) {
-                int pacmanY = Pacman.getPacmanPos(UpdatedState).first;
-                int pacmanX = Pacman.getPacmanPos(UpdatedState).second;
-
-                switch (event.key.keysym.sym) {
-                    case SDLK_UP:
-                        if (pacmanY > 0 && UpdatedState[pacmanY - 1][pacmanX] != '#' && UpdatedState[pacmanY - 1][pacmanX] != '=' && UpdatedState[pacmanY - 1][pacmanX] != '0' && UpdatedState[pacmanY - 1][pacmanX] != '1' && UpdatedState[pacmanY - 1][pacmanX] != '2' && UpdatedState[pacmanY - 1][pacmanX] != '3') {
-                            UpdatedState[pacmanY][pacmanX] = ' ';
-                            --pacmanY;
-                            UpdatedState[pacmanY][pacmanX] = '9';
-                        }
-                        Pacman.Direction = Pacman.FIRST_NORTH;
-                        break;
-                    case SDLK_DOWN:
-                        if (pacmanY < UpdatedState.size() - 1 && UpdatedState[pacmanY + 1][pacmanX] != '#' && UpdatedState[pacmanY + 1][pacmanX] != '=' && UpdatedState[pacmanY + 1][pacmanX] != '0' && UpdatedState[pacmanY + 1][pacmanX] != '1' && UpdatedState[pacmanY + 1][pacmanX] != '2' && UpdatedState[pacmanY + 1][pacmanX] != '3') {
-                            UpdatedState[pacmanY][pacmanX] = ' ';
-                            ++pacmanY;
-                            UpdatedState[pacmanY][pacmanX] = '9';
-                        }
-                        Pacman.Direction = Pacman.FIRST_SOUTH;
-                        break;
-                    case SDLK_LEFT:
-                        if (pacmanX > 0 && UpdatedState[pacmanY][pacmanX - 1] != '#' && UpdatedState[pacmanY][pacmanX - 1] != '=' && UpdatedState[pacmanY][pacmanX - 1] != '0' && UpdatedState[pacmanY][pacmanX - 1] != '1' && UpdatedState[pacmanY][pacmanX - 1] != '2' && UpdatedState[pacmanY][pacmanX - 1] != '3') {
-                            UpdatedState[pacmanY][pacmanX] = ' ';
-                            --pacmanX;
-                            UpdatedState[pacmanY][pacmanX] = '9';
-                        }
-                        Pacman.Direction = Pacman.FIRST_WEST;
-                        break;
-                    case SDLK_RIGHT:
-                        if (pacmanX < UpdatedState[pacmanY].size() - 1 && UpdatedState[pacmanY][pacmanX + 1] != '#' && UpdatedState[pacmanY][pacmanX + 1] != '=' && UpdatedState[pacmanY][pacmanX + 1] != '0' && UpdatedState[pacmanY][pacmanX + 1] != '1' && UpdatedState[pacmanY][pacmanX + 1] != '2' && UpdatedState[pacmanY][pacmanX + 1] != '3') {
-                            UpdatedState[pacmanY][pacmanX] = ' ';
-                            ++pacmanX;
-                            UpdatedState[pacmanY][pacmanX] = '9';
-                        }
-                        Pacman.Direction = Pacman.FIRST_EAST;
-                        break;
-                    default:
-                        nextSprite = HandlePacmanMovement(Pacman, UpdatedState, nextSprite, DeltaTime);
-                        break;
-                }
+                Pacman.PacmanMove(event,UpdatedState,Pacman);
             }
             delay();
             Uint32 CurrentTime = SDL_GetTicks();

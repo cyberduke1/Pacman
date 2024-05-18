@@ -5,6 +5,7 @@
 pacman::pacman(SDL_Renderer *renderer)
 {
     Direction = SECOND_EAST;
+    Position = {0,0,0,0};
     SpriteCord.push_back({0,0});//East 1
     SpriteCord.push_back({0,1});//East 2
     SpriteCord.push_back({1,0});//West 1
@@ -41,7 +42,77 @@ std::pair<int, int> pacman::getPacmanPos(std::vector<std::string> map)
     }
 }
 
-SDL_Texture *pacman::LoadSprites(SDL_Renderer *renderer, int rowIndex, int colIndex, std::string pacLocation) const {
+SDL_Rect pacman::PacmanUpdate(Map &One)
+{
+    Position.y = getPacmanPos(One).first;
+    Position.x = getPacmanPos(One).second;
+
+    switch (Direction) {
+        case FIRST_SOUTH:
+        case SECOND_SOUTH:
+            Position.y += static_cast<int>(PacmanSpeed * DeltaTime);
+            break;
+        case FIRST_EAST:
+        case SECOND_EAST:
+            Position.x += static_cast<int>(PacmanSpeed * DeltaTime);
+            break;
+        case FIRST_NORTH:
+        case SECOND_NORTH:
+            Position.y -= static_cast<int>(PacmanSpeed * DeltaTime);
+            break;
+        case FIRST_WEST:
+        case SECOND_WEST:
+            Position.x -= static_cast<int>(PacmanSpeed * DeltaTime);
+            break;
+        default:
+            break;
+    }
+
+    
+    One[Position.y][Position.x] = '9';
+}
+
+void pacman::PacmanMove(SDL_Event event, Map &One, pacman &Pacman)
+{
+    int pacmanY = getPacmanPos(One).first;
+    int pacmanX = getPacmanPos(One).second;
+    switch (event.key.keysym.sym) {
+        case SDLK_UP:
+            if (pacmanY > 0 && One[pacmanY - 1][pacmanX] != '#' && One[pacmanY - 1][pacmanX] != '=' && One[pacmanY - 1][pacmanX] != '0' && One[pacmanY - 1][pacmanX] != '1' && One[pacmanY - 1][pacmanX] != '2' && One[pacmanY - 1][pacmanX] != '3') {
+                One[pacmanY][pacmanX] = ' ';
+                PacmanUpdate(One);
+            }
+            Pacman.Direction = Pacman.FIRST_NORTH;
+            break;
+        case SDLK_DOWN:
+            if (pacmanY < One.size() - 1 && One[pacmanY + 1][pacmanX] != '#' && One[pacmanY + 1][pacmanX] != '=' && One[pacmanY + 1][pacmanX] != '0' && One[pacmanY + 1][pacmanX] != '1' && One[pacmanY + 1][pacmanX] != '2' && One[pacmanY + 1][pacmanX] != '3') {
+                One[pacmanY][pacmanX] = ' ';
+                PacmanUpdate(One);
+            }
+            Pacman.Direction = Pacman.FIRST_SOUTH;
+            break;
+        case SDLK_LEFT:
+            if (pacmanX > 0 && One[pacmanY][pacmanX - 1] != '#' && One[pacmanY][pacmanX - 1] != '=' && One[pacmanY][pacmanX - 1] != '0' && One[pacmanY][pacmanX - 1] != '1' && One[pacmanY][pacmanX - 1] != '2' && One[pacmanY][pacmanX - 1] != '3') {
+                One[pacmanY][pacmanX] = ' ';
+                PacmanUpdate(One);
+            }
+            Pacman.Direction = Pacman.FIRST_WEST;
+            break;
+        case SDLK_RIGHT:
+            if (pacmanX < One[pacmanY].size() - 1 && One[pacmanY][pacmanX + 1] != '#' && One[pacmanY][pacmanX + 1] != '=' && One[pacmanY][pacmanX + 1] != '0' && One[pacmanY][pacmanX + 1] != '1' && One[pacmanY][pacmanX + 1] != '2' && One[pacmanY][pacmanX + 1] != '3') {
+                One[pacmanY][pacmanX] = ' ';
+                PacmanUpdate(One);
+            }
+            Pacman.Direction = Pacman.FIRST_EAST;
+            break;
+        default:
+            break;
+    }
+    
+}
+
+SDL_Texture *pacman::LoadSprites(SDL_Renderer *renderer, int rowIndex, int colIndex, std::string pacLocation) const
+{
     SDL_Texture *texture = nullptr;
     SDL_Surface *loadedSurface = IMG_Load(pacLocation.c_str());
     if (loadedSurface == nullptr) {
@@ -82,9 +153,6 @@ SDL_Texture *pacman::LoadSprites(SDL_Renderer *renderer, int rowIndex, int colIn
     }
     return texture;
 }
-
-
-
 
 pacman::~pacman()
 {

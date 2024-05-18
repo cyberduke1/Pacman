@@ -84,7 +84,7 @@ int main(int argc, char* argv[]) {
                 quit = true;
                 break;
             } else if (event.type == SDL_KEYDOWN) {
-                
+                Pacman.PacmanMove(event,UpdatedState,Pacman);
             }
             delay();
             Uint32 CurrentTime = SDL_GetTicks();
