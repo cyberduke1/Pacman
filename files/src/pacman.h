@@ -5,10 +5,12 @@
 class pacman
 {
 private:
-    std::vector<SDL_Texture *> PacmanSprites;
-    std::string pacLocation;
+    
 public:
     pacman(SDL_Renderer *renderer);
+    SDL_Texture * PacmanSprites;
+    std::vector<std::string> Loc;
+
     std::pair<int,int> getPacmanPos(std::vector<std::string> map);
     enum DIRECTION{
             FIRST_EAST, SECOND_EAST,
@@ -17,7 +19,7 @@ public:
             FIRST_SOUTH, SECOND_SOUTH, 
     };
     int Direction;
-    SDL_Texture* LoadSprites(SDL_Renderer *renderer, int rowIndex, int colIndex, int numRows, int numCols,int x,int y) const;
+    SDL_Texture* LoadSprites(SDL_Renderer *renderer, int rowIndex, int colIndex,std::string pacLocation) const;
     std::vector<std::pair<int,int>> SpriteCord;
     ~pacman();
 };

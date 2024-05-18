@@ -125,19 +125,20 @@ int main(int argc, char* argv[]) {
                 }
             }
             delay();
-            delay();delay();
             Uint32 CurrentTime = SDL_GetTicks();
-            DeltaTime = (CurrentTime - PreviousFrameTime) / 1000.0f; 
+            DeltaTime = (CurrentTime - PreviousFrameTime) / 1000.0f;
             PreviousFrameTime = CurrentTime;
+
+           
         }
+            if (CheckWall(UpdatedState, Pacman))
+                nextSprite = HandlePacmanMovement(Pacman, UpdatedState, nextSprite);
 
-        if (CheckWall(UpdatedState, Pacman))
-            nextSprite = HandlePacmanMovement(Pacman, UpdatedState, nextSprite);
+            SDL_RenderClear(MainRenderer);
+            DrawMap(MainRenderer, UpdatedState, Pacman, LoadMaps, nextSprite);
+            SDL_SetRenderDrawColor(MainRenderer, 0, 0, 0, 255);
+            SDL_RenderPresent(MainRenderer);
 
-        SDL_RenderClear(MainRenderer);
-        DrawMap(MainRenderer, UpdatedState, Pacman, LoadMaps, nextSprite);
-        SDL_SetRenderDrawColor(MainRenderer, 0, 0, 0, 255);
-        SDL_RenderPresent(MainRenderer);
     }
 
     return 0;
@@ -162,6 +163,7 @@ void Init() {
 void DrawMap(SDL_Renderer *renderer, Map One, pacman Pacman, Window LoadMap,int SpriteNum) {
     SDL_Rect Wall = {0, 0, 0, 0};
     SDL_Texture* PacmanTextures = nullptr;
+    SDL_Rect PacmanRect = {0, 0, 0, 0};
 
     for (int y = 0; y < LIMIT; y++) {
         for (int x = 0; x < LIMIT; x++) {
@@ -176,15 +178,54 @@ void DrawMap(SDL_Renderer *renderer, Map One, pacman Pacman, Window LoadMap,int 
                     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
                     SDL_RenderDrawPoint(renderer, Wall.x + CELL_SIZE / 2, Wall.y + CELL_SIZE / 2);
                     break;
-                pixelX = (x + 7) * CELL_SIZE + 30 * DeltaTime;
-        pixelY = (y + 7) * CELL_SIZE + 30 * DeltaTime;
-        PacmanTextures = Pacman.LoadSprites(renderer, Pacman.SpriteCord[Pacman.Direction].first, SpriteNum, 4, 2, pixelX, pixelY);
-        if (PacmanTextures != nullptr) {
-            
-            SDL_Rect PacmanRect = {pixelX, pixelY, CELL_SIZE, CELL_SIZE};
-            SDL_RenderCopy(renderer, PacmanTextures, nullptr, &PacmanRect);
-            SDL_DestroyTexture(PacmanTextures);
-        }
+                case '9':
+                
+                        switch (Pacman.Direction) {
+                            case Pacman.FIRST_SOUTH:
+                                Wall.w = 13;
+                                Wall.h = 12;
+                                PacmanTextures = Pacman.LoadSprites(renderer,Wall.w,Wall.h,Pacman.Loc[Pacman.FIRST_SOUTH]);
+                            case Pacman.SECOND_SOUTH:
+                                Wall.w = 13;
+                                Wall.h = 9;
+                                PacmanTextures = Pacman.LoadSprites(renderer,Wall.w,Wall.h,Pacman.Loc[Pacman.SECOND_SOUTH]);
+                                break;
+                            
+                            case Pacman.FIRST_EAST:
+                                Wall.w = 12;
+                                Wall.h = 13;
+                                PacmanTextures = Pacman.LoadSprites(renderer,Wall.w,Wall.h,Pacman.Loc[Pacman.FIRST_WEST]);
+                            case Pacman.SECOND_EAST:
+                                Wall.w = 9;
+                                Wall.h = 13;
+                                PacmanTextures = Pacman.LoadSprites(renderer,Wall.w,Wall.h,Pacman.Loc[Pacman.SECOND_WEST]);
+                                break;
+                            case Pacman.FIRST_NORTH:
+                                Wall.w = 13;
+                                Wall.h = 12;
+                                PacmanTextures = Pacman.LoadSprites(renderer,Wall.w,Wall.h,Pacman.Loc[Pacman.FIRST_NORTH]);
+                            case Pacman.SECOND_NORTH:
+                                Wall.w = 13;
+                                Wall.h = 9;
+                                PacmanTextures = Pacman.LoadSprites(renderer,Wall.w,Wall.h,Pacman.Loc[Pacman.SECOND_NORTH]);
+                                break;
+                            case Pacman.FIRST_WEST:
+                                Wall.w = 12;
+                                Wall.h = 13;
+                                PacmanTextures = Pacman.LoadSprites(renderer,Wall.w,Wall.h,Pacman.Loc[Pacman.FIRST_EAST]);
+                                break;
+                            case Pacman.SECOND_WEST:
+                                Wall.w = 9;
+                                Wall.h = 13;
+                                PacmanTextures = Pacman.LoadSprites(renderer,Wall.w,Wall.h,Pacman.Loc[Pacman.SECOND_EAST]);
+                                break;
+                            default:
+                                break;
+                        }
+                        PacmanRect = {Wall.x, Wall.y, CELL_SIZE-5,CELL_SIZE-5};
+                        SDL_RenderCopy(renderer, PacmanTextures, nullptr, &PacmanRect);
+                        SDL_DestroyTexture(PacmanTextures);
+
                     break;
                 case 'o':
                     SDL_SetRenderDrawColor(renderer, 255, 0, 255, 255);
