@@ -55,10 +55,6 @@ bool CheckWall(Map UpdatedState,pacman Pacman){
 void delay(){
     Uint32 elapsedTime = SDL_GetTicks() - PreviousFrameTime;
     while(!SDL_TICKS_PASSED(SDL_GetTicks(), TARGETFPS+PreviousFrameTime));
-    while(!SDL_TICKS_PASSED(SDL_GetTicks(), TARGETFPS+PreviousFrameTime));
-    while(!SDL_TICKS_PASSED(SDL_GetTicks(), TARGETFPS+PreviousFrameTime));
-    while(!SDL_TICKS_PASSED(SDL_GetTicks(), TARGETFPS+PreviousFrameTime));
-    while(!SDL_TICKS_PASSED(SDL_GetTicks(), TARGETFPS+PreviousFrameTime));
     PreviousFrameTime = SDL_GetTicks();
 }
 
@@ -248,12 +244,30 @@ void DrawMap(SDL_Renderer *renderer, Map One, pacman Pacman, Window LoadMap,int 
     }
 }
 
+void update(SDL_Rect &rect){
+    
+    Uint32 currentTime = SDL_GetTicks();
+    static Uint32 previousTime = 0;
+    float deltaTime = (currentTime - previousTime) / 1000.0f;
+
+    
+    rect.x += static_cast<int>(100 * deltaTime);
+    rect.y += static_cast<int>(100 * deltaTime);
+
+    // Handle boundary conditions
+    if (rect.x < 0) rect.x = 0;
+    if (rect.y < 0) rect.y = 0;
+    if (rect.x >  WINDOW_WIDTH - rect.w) rect.x = WINDOW_WIDTH - rect.w;
+    if (rect.y > WINDOW_HEIGHT - rect.h) rect.y = WINDOW_HEIGHT - rect.h;
+
+    previousTime = currentTime;
+}
+
 
 int HandlePacmanMovement(pacman& Pacman, Map& UpdatedState, int Index, float DeltaTime) {
     int pacmanY = Pacman.getPacmanPos(UpdatedState).first;
     int pacmanX = Pacman.getPacmanPos(UpdatedState).second;
 
-    // Update Pacman's position based on direction and delta time
     switch (Pacman.Direction) {
         case Pacman.FIRST_SOUTH:
         case Pacman.SECOND_SOUTH:
